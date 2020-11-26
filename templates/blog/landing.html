@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+    <title>BITSHUB</title>
+    <link rel="stylesheet" href="/static/vendor/css/style.css">
+    <link rel="stylesheet" href="/static/vendor/fonts/material-icon/css/material-design-iconic-font.min.css">
+</head>
+
+<body>
+<div class="main">
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <div class="message">
+                        {% for message in messages %}
+                            <p class="text-center alert alert-{{ message.tags }}">{{ message }} <i
+                                    class="fa fa-close close"></i></p>
+                        {% endfor %}
+                    </div>
+                    <h2 class="form-title">Sign up</h2>
+                    <form method="POST" action="{% url 'signup' %}" class="register-form" id="register-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="name" id="name" placeholder="UserName"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" name="email" id="email" placeholder="Your Email"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="pass" id="pass" placeholder="Password"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
+                                statements in <a href="#" class="term-service">Terms of service</a></label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="/static/img/signin-image.jpg" alt="sing up image"></figure>
+                    <div class="social-login">
+                        <ul class="socials">
+                            <li><a href="{% url 'social:begin' 'github' %}"><i
+                                    class="display-flex-center zmdi zmdi-github"></i></a></li>
+                            <li><a href="{% url 'social:begin' 'twitter' %}"><i
+                                    class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="{% url 'social:begin' 'google-oauth2' %}"><i
+                                    class="display-flex-center zmdi zmdi-google"></i></a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="signup-image-link">I am already member</a><br>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sign-in" style="display: none;">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="/static/img/signup-image.jpg" alt="sing up image"></figure>
+                    <a href="#" id="signup-image-link" class="signup-image-link">Create an account</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Login</h2>
+                    <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                        </div>
+                        <a href="#" class="reset-image-link" id="reset-button">Forgot Password<i
+                                class="zmdi zmdi-network-locked"></i></a>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="reset" style="display: none;">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="/static/img/reset.png" alt="sing up image"></figure>
+                    <a href="#" id="signup-image-link" style="text-decoration: none;" class="signup-image-link">Create
+                        an account</a><br>
+                    <a href="#" style="text-decoration: none;" class="signup-image-link">Already a member..</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Reset Password.</h2>
+                    <form method="POST" action="{% url 'reset' %}" class="register-form" id="reset-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="reset-username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="reset-username" id="reset-username" placeholder="Your Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="reset-email"><i class="zmdi zmdi-email-open"></i></label>
+                            <input type="email" name="reset-email" id="reset-email" placeholder="Your Email"/>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/main.js"></script>
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            $('.alert').fadeOut(2000);
+
+        }, 9000);
+    })
+    $('.close').click(function (e) {
+        $(this).parent().remove()
+    });
+</script>
+</body>
+</html>

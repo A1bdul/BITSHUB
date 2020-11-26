@@ -1,0 +1,364 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BITSHUB</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<body>
+<header id="header">
+    <div id="nav">
+        <div id="nav-fixed">
+            <div class="container">
+                <div class="nav-logo">
+                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                </div>
+                <div class="nav-btns">
+                    {% if user.is_staff or user.is_superuser %}
+                        <button class="aside-btn"><i class="fa fa-bars"></i></button>
+                    {% endif %}
+                    <button class="search-btn"><i class="fa fa-search"></i></button>
+                    <form action="{% url 'home' %}" class="search-form">
+                        <input class="search-input" type="text" name="q" placeholder="Enter Your Search ...">
+                        <button type="button" class="search-close"><i class="fa fa-times"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% if user.is_staff or user.is_superuser %}
+        <div id="nav-aside">
+            <div class="section-row">
+                <ul class="naves">
+                    <li>
+                        <i class="ti-home"></i>
+                        <a href="{% url 'home' %}" title="">Home </a>
+                    </li>
+                    <li>
+                        <i class="ti-info-alt"></i>
+                        <a href="{% url 'edit_profile' %}" title="">Basic info</a>
+                    </li>
+                    <li>
+                        <i class="ti-mouse-alt"></i>
+                        <a href="{% url 'article_create' %}" title="">Article</a>
+                    </li>
+                     <li>
+                        <i class="ti-lock"></i>
+                        <a href="{% url 'logout' %}">
+                            {% csrf_token %} Logout
+                            </a>
+                    </li>
+                </ul>
+            </div>
+            {% if authored_post %}
+                <div class="section-row">
+                <h3>Recent Posts</h3>
+                {% for post in authored_post %}
+                    <div class="post post-widget">
+                        {% if post.cover_photo %}
+                            <a class="post-img"><img src="{{ post.cover_photo.url }}" alt=""></a>
+                        {% else %}
+                            <svg class="bd-placeholder-img" width="100%" height="100%"
+                                 preserveAspectRatio="xMidYMid slice"
+                                 focusable="false" role="img">
+                                <rect width="100%" height="100%" fill="#777"></rect>
+                            </svg>
+                        {% endif %}
+                        <div class="post-body">
+                            <h3 class="post-title"><a
+                                    href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
+                                <a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a>
+                                <a id="delete" href="{% url 'delete' post.id %}"> <i class="fa fa-trash-o"></i> </a></h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+            <button class="nav-aside-close"><i class="fa fa-times"></i></button>
+        </div>
+    {% endif %}
+    </div>
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            {% for category in categories %}
+                <a class="p-2 text-muted" href="{% url 'category' category %}">{{ category }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+    <div id="post-header" class="page-header">
+        {% if post.cover_photo %}
+            <div class="background-img" style="background-image: url({{ post.cover_photo.url }});"></div>
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="post-meta">
+                        <a class="post-category cat-2" href="{% url 'category' post.category %}">{{ post.category }}</a>
+                        <span class="post-date {% if not post.cover_photo %} text-primary {% endif %}">{{ post.publish_date }}</span>
+                    </div>
+                    <h1 class="{% if not post.cover_photo %} text-primary {% endif %}">{{ post.title }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="section-row sticky-container">
+                    <div class="main-post">
+                        {% if post.snippet %}
+                            <h3>{{ post.snippet }}</h3>
+                        {% endif %}
+                        <p>{{ post.body|safe }}</p>
+                    {% if post.status == "published" %}
+
+                        {% if  user.is_authenticated %}
+                        <div id="like-section">
+                            {% include 'blog/like-section.html' %}
+                        </div>
+                            {% else %}
+                            <p style="font-size:20px ;">
+                                 <a href="{% url 'like_photo' %}" id="like-redirect" style="border: none;background: none;outline: none; color: black"><i class="fa fa-heart-o"></i></a> {{ total_likes }}
+                                </p>
+                                 {% endif %}
+                    </div>
+                    <div class="post-shares sticky-shares">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                           class="share-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"
+                           class="share-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}"
+                           class="share-google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}"
+                           class="share-pinterest"><i class="fa fa-reddit-alien"></i></a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&source={{ share_string}}&source={{ request.build_absolute_uri }}"
+                           class="share-linkedin"><i class="fa fa-linkedin"></i></a>
+
+                    </div>
+                </div>
+                <div class="section-row text-center">
+                    <a href="#" style="display: inline-block;margin: auto;">
+                        <img class="img-responsive" src="{% static 'img/ad-2.jpg' %}" alt="">
+                    </a>
+                </div>
+                <div class="section-row">
+                    <div class="post-author">
+                        <div class="media">
+                            <div class="media-left">
+                                <img class="media-object" src="./img/author.png" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <h3>{{ post.Author.first_name }} {{ post.Author.last_name }}</h3>
+                                </div>
+                                <p>{{ post.Author.profile.About }}</p>
+                                <ul class="author-social">
+                                    {% if post.Author.profile.facebook != "" %}
+                                        <li><a href="{{ post.Author.profile.facebook }}"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if post.Author.profile.twitter != "" %}
+                                        <li><a href="{{ post.Author.profile.twitter }}"><i
+                                                class="fa fa-twitter"></i></a></li>
+                                    {% endif %}
+                                    {% if post.Author.profile.google_plus != "" %}
+                                        <li><a href="{{ post.Author.profile.google_plus }}"><i
+                                                class="fa fa-google-plus"></i></a></li>
+                              {% endif %}
+                                    {% if post.Author.profile.instagram != "" %}
+                                        <li><a href="{{ post.Author.profile.instagram }}"><i
+                                                class="fa fa-instagram"></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    {% include 'blog/comment-section.html' %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="aside-widget text-center">
+                    <a href="#" style="display: inline-block;margin: auto;">
+                        <img class="img-responsive" src="{% static 'img/ad-1.jpg' %}" alt="">
+                    </a>
+                </div>
+                <div class="aside-widget">
+							<div class="section-title">
+								<h2>Catagories</h2>
+							</div>
+							<div class="category-widget">
+								<ul>
+									<li><a href="{% url 'category' 'Coding' %}" class="cat-1">Coding<span>{{ coding_count.count }}</span></a></li>
+									<li><a href="{% url 'category' 'Design' %}" class="cat-2">Design<span>{{ desugn_count.count }}</span></a></li>
+									<li><a href="{% url 'category' 'Technology' %}" class="cat-4">Technology<span>{{ tech_count.count }}</span></a></li>
+									<li><a href="{% url 'category' 'World' %}" class="cat-3">World<span>{{ lff.count }}</span></a></li>
+								</ul>
+							</div>
+						</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="footer-widget">
+                        <div class="footer-logo">
+                            <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                        </div>
+                        <ul class="footer-nav">
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Advertisement</a></li>
+                        </ul>
+                        <div class="footer-copyright">
+								<span>&copy;
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
+                                            class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="footer-widget">
+                                <h3 class="footer-title">Links.</h3>
+                                <ul class="footer-links">
+                                    <li><a href="{% url 'index' %}">Featured Posts</a></li>
+                                    <li><a href="{% url 'register' %}">Join Us</a></li>
+                                    <li><a href="{% url 'contact' %}">Contacts</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="footer-widget">
+                            <h3 class="footer-title">Catagories</h3>
+
+                            <ul class="footer-links">
+                                {% for cat in loop %}
+                                <li><a href="{% url 'category' cat %}">{{ cat }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Join our Newsletter</h3>
+                        <div class="footer-newsletter">
+                            <form class="newsletter" method="post">
+                                {% csrf_token %}
+                                <input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
+                                <button class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                        <ul class="footer-social">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/main.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (event) {
+            $(document).on('click', '#like-btn', function (event) {
+                event.preventDefault();
+                var pk = $(this).attr('value');
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'like_photo' %}',
+                    data: {'id': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#like-section').html(response['form'])
+                    },
+                });
+            });
+
+        });
+        $(document).ready(function (event) {
+            $(document).on('submit', '.post-reply', function (event) {
+                event.preventDefault();
+                var pk = $(this).attr('value');
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.comment-section').html(response['form']);
+                        $('.reply').click(function () {
+                            $(this).parent().parent().parent().next('.reply-comment').fadeToggle()
+                        });
+                    },
+                });
+            });
+
+        });
+        $(document).ready(function (event) {
+            $(document).on('submit', '.reply-form', function (event) {
+                event.preventDefault();
+                var pk = $(this).attr('value');
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.comment-section').html(response['form']);
+                        $('.reply').click(function () {
+                            $(this).parent().parent().parent().next('.reply-comment').fadeToggle()
+                        });
+                    },
+                });
+            });
+
+        });
+    </script>
+<script>
+
+$(document).on('submit', '.newsletter', function (e) {
+	e.preventDefault();
+
+	$.ajax({
+		type:'POST',
+		url:'/create-newsletter/email',
+        data:{
+		    newsletter : $('#newsletter').val(),
+		    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function (response) {
+            $('.input').val('')
+        }
+
+	})
+
+})
+$('#like-redirect').click(function () {
+	return confirm('Login or Sign up to like ths post ')
+})
+</script>
+
+</body>
+</html>

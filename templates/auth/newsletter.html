@@ -1,0 +1,6 @@
+{% autoescape off %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    This {{ letter }} has been subscribed to the MyBlog newsletter section
+ To unsubscribe <a href="http://{{ domain }}{% url 'unsubscribe' letter %}"></a>
+{% endautoescape %}

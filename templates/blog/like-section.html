@@ -1,0 +1,7 @@
+ {% csrf_token %}
+        <p style="font-size:20px;" id="like_section">
+            <button id="like-btn" {% if not user.is_authenticated %} disabled {% endif %}style="border: none;background: none;outline: none; color: black" name="post_id" value="{{post.id}}">
+                {% if is_liked %} <i class="fa fa-heart"></i>{% else %}<i class="fa fa-heart-o"></i>{% endif %}
+            </button>
+            {{ total_likes }}
+        </p>

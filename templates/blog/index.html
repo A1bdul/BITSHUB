@@ -1,0 +1,189 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <title>BITSHUB</title>
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-light fixed-top bg-light" style="height:4rem;">
+                <div class="nav-logo">
+                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                </div>
+  </nav>
+</header>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                <rect width="100%" height="100%" fill="#777"/>
+            </svg>
+            <div class="container">
+                <div class="carousel-caption text-left">
+                    <h1>Stay Informed</h1>
+                    <p class="text-black-50">Never miss  a moment, Get full analysis on every major event or occurance around the globe..</p>
+                    <p><a class="btn btn-lg btn-primary" href="{% url 'home' %}" role="button">Sign up today</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                <rect width="100%" height="100%" fill="#777"/>
+            </svg>
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Sport Experience.</h1>
+                    <p>Get news on Football and sport events in Bits informations.</p>
+                    <p class="text-black-50" ><a class="btn btn-lg btn-primary" href="{% url 'category' 'Sport' %}" role="button">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                <rect width="100%" height="100%" fill="#777"/>
+            </svg>
+            <div class="container">
+                <div class="carousel-caption text-right">
+                    <h1>One more for good measure.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida
+                        at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+{% if featured %}
+    <div class="gap gray-bg">
+        <div class="container">
+            <div class="text-black-50" > Featured Post  </div>
+            <div class="row" id="page-contents">
+                <div class="col-lg-12">
+                    <div class="blog-sec">
+                        {% for post in featured %}
+                            <div class="l-post">
+                                <figure>
+                                    {% if post.cover_photo %}
+                                        <img src="{{ post.cover_photo.url }}" alt="">
+                                    {% else %}
+                                        <svg class="bd-placeholder-img" width="100%" height="100%"
+                                             preserveAspectRatio="xMidYMid slice"
+                                             focusable="false" role="img">
+                                            <rect width="100%" height="100%" fill="#777"></rect>
+                                        </svg>
+                                    {% endif %}
+                                    <ul class="blg-socials">
+                                        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" title="" class="facebook"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li><a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}" title="" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#" title="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="l-post-meta">
+                                    <h4>{{ post.title }}</h4>
+                                    <div class="l-post-ranking">
+                                        {{ post.Author }}
+                                        {{ post.publish_date }}
+                                    </div>
+                                    {% if post.snippet %}
+                                        <p>
+                                            {{ post.snippet|lower }}</p>
+                                    {% endif %}<div class="g-post-ranking">
+                                                <a title="" href="" class="likes"><i
+                                                        class="fa fa-heart-o"></i>{{ post.likes.count }}
+                                                     like{{ post.likes.count|pluralize }}</a>
+                                            </div>
+                                    <a href="{% url 'article_detail' post.id  post.slug %}">Read More</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}
+<footer>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-4 col-md-4">
+                <div class="widget">
+                    <div class="foot-logo">
+                        <div class="logo">
+                            <a href="{% url 'home' %}" title=""><img src="/static/img/logo.png" alt=""></a>
+                        </div>
+                        <p>
+                            The trio took this simple idea and built it into the world’s leading carpooling platform.
+                        </p>
+                    </div>
+                    <ul class="location">
+                        <li>
+                            <i class="ti-map-alt"></i>
+                            <p>33 new montgomery st.750 san francisco, CA USA 94105.</p>
+                        </li>
+                        <li>
+                            <i class="ti-mobile"></i>
+                            <p>+1-56-346 345</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <div class="widget">
+                    <div class="widget-title"><h4>follow</h4></div>
+                    <ul class="list-style">
+                        <li><i class="fa fa-facebook-square"></i> <a href="https://web.facebook.com/shopcircut/"
+                                                                     title="">facebook</a></li>
+                        <li><i class="fa fa-twitter-square"></i><a href="https://twitter.com/login?lang=en" title="">twitter</a>
+                        </li>
+                        <li><i class="fa fa-instagram"></i><a href="https://www.instagram.com/?hl=en"
+                                                              title="">instagram</a></li>
+                        <li><i class="fa fa-google-plus-square"></i> <a href="https://plus.google.com/discover"
+                                                                        title="">Google+</a></li>
+                        <li><i class="fa fa-pinterest-square"></i> <a href="https://www.pinterest.com/" title="">Pintrest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <div class="widget">
+                    <div class="widget-title"><h4>Navigate</h4></div>
+                    <ul class="list-style">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="{% url 'register' %}">Join Us</a></li>
+<li><a href="{% url 'contact' %}">Contacts</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BITSHUB</title>
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+</head>
+<body>
+<header id="header">
+    <div id="nav">
+        <div id="nav-fixed">
+            <div class="container">
+                <div class="nav-logo">
+                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            {% for category in categories %}
+                <a class="p-2 {% if view_catz|lower == category|lower %}
+                text-dark text-capitalize
+                {% else %}text-muted{% endif %} " href="{% url 'category' category %}">{{ category }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+</header>
+<section>
+		<div class="gap gray-bg">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row" id="page-contents">
+							<div class="col-lg-3">
+								<aside class="sidebar static">
+									<div class="widget">
+										{% if authored_post %}
+										<h4 class="widget-title">Recent Activity</h4>
+										<ul class="activitiez">
+											{% for post in authored_post %}
+											<li>
+												<div class="activity-meta">
+													<i>{{ post.publish_date }}</i>
+													{% if post.snippet %}
+													<span><a title="" href="{% url 'article_detail' post.id post.slug %}">{{ post.snippet }}</a></span>
+													{% endif %}
+													<h6>by <a href="{% url 'article_detail' post.id post.slug %}" class="stretched-link">{{ post.title }}</a>
+                                                        <br><a
+                                        href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
+                                <a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a><a
+                                    id="delete" href="{% url 'delete' post.id %}"><i class="fa fa-trash-o"></i> </a></h6>
+
+                                                </div>
+											</li>
+											{% endfor %}
+
+										</ul>
+										{% endif %}
+									</div>
+									<div class="widget stick-widget">
+										<h4 class="widget-title">Edit info</h4>
+										<ul class="naves">
+                    <li>
+                        <i class="ti-home"></i>
+                        <a href="{% url 'home' %}" title="">Home </a>
+                    </li>
+                    <li>
+                        <i class="ti-info-alt"></i>
+                        <a href="{% url 'edit_profile' %}" title="">Basic info</a>
+                    </li>
+                    <li>
+                        <i class="ti-mouse-alt"></i>
+                        <a href="{% url 'article_create' %}" title="">Article</a>
+                    </li>
+                    <li>
+                        <i class="ti-lock"></i>
+                        <a href="{% url 'logout' %}"> Logout </a>
+                    </li>
+                </ul>
+									</div><!-- settings widget -->
+								</aside>
+							</div><!-- sidebar -->
+							<div class="col-lg-6">
+								<div class="central-meta">
+									<div class="editing-info">
+										<h5 class="f-title"><i class="ti-info-alt"></i> Edit Basic Information</h5>
+
+										<form action="."  method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+											<div class="form-group half">
+											  {{ user_form.first_name }}
+											  <label class="control-label" for="input">First Name</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group half">
+											  {{ user_form.last_name }}
+											  <label class="control-label" for="input">Last Name</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+											  {{ user_form.email }}
+											  <label class="control-label" for="input"><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4b0e262a22270b">[email&#160;protected]</a></label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+											  {{ profile_form.phone_number }}
+											  <label class="control-label" for="input">Phone No.</label><i class="mtrl-select"></i>
+											</div>
+                                            <h5 class="f-title ext-margin"><i class="ti-share"></i> Your Social Accounts</h5>
+											<div class="form-group">
+											  {{ profile_form.facebook }}
+											  <label class="control-label" for="input"><i class="fa fa-facebook-square"></i> Facebook</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+											  {{ profile_form.twitter }}
+											  <label class="control-label" for="input"><i class="fa fa-twitter-square"></i> Twitter</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+											  {{ profile_form.google_plus }}
+											  <label class="control-label" for="input"><i class="fa fa-google-plus-square"></i> Google Plus</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+											  {{ profile_form.instagram }}
+											  <label class="control-label" for="input"><i class="fa fa-instagram"></i> Instagram</label><i class="mtrl-select"></i>
+											</div>
+
+											{{ profile_form.date_of_birth }}
+											<div class="form-radio">
+											  <div class="radio">
+												<label>
+												  <input type="radio" checked="checked" name="radio"><i class="check-box"></i>Male
+												</label>
+											  </div>
+											  <div class="radio">
+												<label>
+												  <input type="radio" name="radio"><i class="check-box"></i>Female
+												</label>
+											  </div>
+											</div>
+											<div class="form-group">
+											  {{ profile_form.city }}
+											  <label class="control-label" for="input">City</label><i class="mtrl-select"></i>
+											</div>
+											<div class="form-group">
+												{{ profile_form.country }}
+											</div>
+											<div class="form-group">
+											  {{ profile_form.About }}
+											  <label class="control-label" for="textarea">About Me</label><i class="mtrl-select"></i>
+											</div>
+											<div class="submit-btns">
+												<button type="button" class="mtr-btn"><span>Cancel</span></button>
+												<button type="submit" class="mtr-btn"><span>Update</span></button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<footer>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-4 col-md-4">
+                <div class="widget">
+                    <div class="foot-logo">
+                        <div class="logo">
+                            <a href="{% url 'home' %}" title=""><img src="/static/img/logo.png" alt=""></a>
+                        </div>
+                        <p>
+                            The trio took this simple idea and built it into the world’s leading carpooling platform.
+                        </p>
+                    </div>
+                    <ul class="location">
+                        <li>
+                            <i class="ti-map-alt"></i>
+                            <p>33 new montgomery st.750 san francisco, CA USA 94105.</p>
+                        </li>
+                        <li>
+                            <i class="ti-mobile"></i>
+                            <p>+1-56-346 345</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <div class="widget">
+                    <div class="widget-title"><h4>follow</h4></div>
+                    <ul class="list-style">
+                        <li><i class="fa fa-facebook-square"></i> <a href="https://web.facebook.com/shopcircut/"
+                                                                     title="">facebook</a></li>
+                        <li><i class="fa fa-twitter-square"></i><a href="https://twitter.com/login?lang=en" title="">twitter</a>
+                        </li>
+                        <li><i class="fa fa-instagram"></i><a href="https://www.instagram.com/?hl=en"
+                                                              title="">instagram</a></li>
+                        <li><i class="fa fa-google-plus-square"></i> <a href="https://plus.google.com/discover"
+                                                                        title="">Google+</a></li>
+                        <li><i class="fa fa-pinterest-square"></i> <a href="https://www.pinterest.com/" title="">Pintrest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <div class="widget">
+                    <div class="widget-title"><h4>Navigate</h4></div>
+                    <ul class="list-style">
+                        <li><a href="{% url 'home' %}">Articles</a></li>
+                        <li><a href="{% url 'register' %}">Join Us</a></li>
+                        <li><a href="contact.html">Contacts</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/main.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

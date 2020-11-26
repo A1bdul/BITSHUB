@@ -1,0 +1,58 @@
+{% if comments %}
+    <div class="section-row">
+        <div class="section-title">
+            <h2><i class="fa fa-comment-o"></i> {{ comments.count }} Comment{{ comments.count|pluralize }}</h2>
+        </div>
+        {% for comment in comments %}
+            <div class="post-comments">
+                <div class="media">
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <h4>{{ comment.user }}</h4>
+                            <span class="time">{{ comment.timestamp }}</span>
+                            <button style="outline: none;background: none;border: none;" type="button" class="reply"><i
+                                    class="fa fa-reply"></i></button>
+                        </div>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </div>
+                <div class="footer-newsletter reply-comment" style="display: none;">
+                    <form action="" class="reply-form" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="comment_id" value={{ comment.id }}>
+                        <input class="input" type="text" name="content">
+                        <button type="submit" class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
+                    </form>
+                </div>
+                {% for reply in comment.replies.all %}
+                    <div class="media ml-5">
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <h4>{{ reply.user }}</h4>
+                                <span class="time">{{ reply.timestamp }}</span>
+                            </div>
+                            <p>{{ reply.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="section-row">
+    <div class="section-title">
+        <h2>Leave a reply</h2>
+        <p>your email address will not be published. required fields are marked *</p>
+    </div>
+    <form action="" class="post-reply" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea class="input" style="border:2px solid black; font-size:19px;" name="content" id="content" placeholder="Message"></textarea>
+                </div>
+                <button type="submit" class="primary-button">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
