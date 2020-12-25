@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+    <title>BITSHUB</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/vendor/css/style.css">
+    <link rel="stylesheet" href="/static/vendor/fonts/material-icon/css/material-design-iconic-font.min.css">
+</head>
+<body>
+<div class="main">
+    <section class="sign-in" >
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="/static/img/signup-image.jpg" alt="sing up image"></figure>
+                    <a href="{% url 'login' %}" id="signup-image-link" class="signup-image-link">Continue to login</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Reset Password</h2>
+                     <div class="message">
+                        {% for message in messages %}
+                            <p class="text-center alert alert-{{ message.tags }}">{{ message }} <i
+                                    class="fa fa-close close"></i></p>
+                        {% endfor %}
+                    </div>
+                    <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="reset-username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="reset-username" id="reset-username" placeholder="Your Name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="reset-email"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="email" name="reset-email" id="reset-email" placeholder="Email"/>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Request"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
