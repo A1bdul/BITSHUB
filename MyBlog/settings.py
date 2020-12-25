@@ -47,11 +47,6 @@ INSTALLED_APPS = [
     'social_django',
 ]
 
-UPLOADCARE = {
-    'pub_key': '760dabb2b41e4180f230',
-    'secret': 'd8615cbee51e9cada5b3',
-}
-
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
@@ -157,6 +152,11 @@ EMAIL_HOST_USER = 'bitshub001@gmail.com'
 EMAIL_HOST_PASSWORD = '123AbduL456'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+
+UPLOADCARE = {
+    'pub_key': '760dabb2b41e4180f230',
+    'secret': 'd8615cbee51e9cada5b3',
+}
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'

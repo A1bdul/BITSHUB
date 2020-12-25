@@ -87,22 +87,22 @@
                 {% for post in authored_post %}
 						<div class="post post-widget">
                         {% if post.cover_photo %}
-                            <a class="post-img"><img src="{{ post.cover_photo}}" alt=""></a>
+							<a class="post-img"><img alt="" src="{{ post.cover_photo.cdn_url}}"></a>
 
-                        {% endif %}
+							{% endif %}
 							<div class="post-body">
-                            <h3 class="post-title">
-                                <a
-                                        href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
-                                <a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a><a
-                                    id="delete" href="{% url 'delete' post.id %}"><i class="fa fa-trash-o"></i> </a>
-                            </h3>
-                        </div>
+								<h3 class="post-title">
+									<a
+											href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
+									<a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a><a
+										id="delete" href="{% url 'delete' post.id %}"><i class="fa fa-trash-o"></i> </a>
+								</h3>
+							</div>
 						</div>
-{% endfor %}
+						{% endfor %}
 					</div>
 					<!-- /widget posts -->
-{% endif %}
+					{% endif %}
 					<!-- social links -->
 					<div class="section-row">
 						<h3>Follow us</h3>
@@ -118,14 +118,14 @@
 					<button class="nav-aside-close"><i class="fa fa-times"></i></button>
 					<!-- /aside nav close -->
 				</div>
-                <!-- Aside Nav -->
-                {% endif %}
+				<!-- Aside Nav -->
+				{% endif %}
 			</div>
 			<!-- /Nav -->
 
 			<!-- Page Header -->
 			<div id="post-header" class="page-header">
-				        {% if post.cover_photo %}
+				{% if post.cover_photo %}
 				<div class="background-img" style="background-image: url({{ post.cover_photo }});"></div>
 				{% endif %}
 				<div class="container">
@@ -135,7 +135,7 @@
 								<span class="post-date" style=" {% if not post.cover_photo %} color:black; {% endif %}">{{ post.publish_date }}</span>
 							</div>
 							<h1 style=" {% if not post.cover_photo %} color:black; {% endif %}">{{ post.title }}</h1>
-                </div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -147,92 +147,92 @@
 				<!-- row -->
 				<div class="row">
 					<!-- Post content -->
-						<div class="section-row sticky-container">
-							<div class="main-post">
-								{% if post.snippet %}
-                            <h3>{{ post.snippet }}</h3>
-                        {% endif %}
-								 {{ post.body|safe }}
-							</div>
-
-							{% if post.status == "published" %}
-
-							{% if  user.is_authenticated %}
-                        <div id="like-section">
-                            {% include 'blog/like-section.html' %}
-                        </div>
-                            {% else %}
-                            <p style="font-size:20px ;">
-                                 <a href="{% url 'like_photo' %}" id="like-redirect" style="border: none;background: none;outline: none; color: black"><i class="fa fa-heart-o"></i></a> {{ total_likes }}
-                                </p>
-                                 {% endif %}
-							<div class="post-shares sticky-shares"><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
-                           class="share-facebook"><i class="fa fa-facebook"></i></a>
-                        <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"
-                           class="share-twitter"><i class="fa fa-twitter"></i></a>
-                        <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}"
-                           class="share-pinterest"><i class="fa fa-reddit-alien"></i></a>
-                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&source={{ share_string}}&source={{ request.build_absolute_uri }}"
-                           class="share-linkedin"><i class="fa fa-linkedin"></i></a>
-
-
-
-						<a href="whatsapp://send?text={{ request.build_absolute_uri }}" class="share-whatsapp"><i class="fa fa-whatsapp"></i></a>
-                    <a href="mailto:?subject=Check out this awesome review&amp;body={{ share_string }}{{ request.build_absolute_uri }}"
-   title="Share by Email" class="share-envelope"><i class="fa fa-envelope"></i></a>
-
-
-
-
-							</div>
+					<div class="section-row sticky-container">
+						<div class="main-post">
+							{% if post.snippet %}
+							<h3>{{ post.snippet }}</h3>
+							{% endif %}
+							{{ post.body|safe }}
 						</div>
 
-						<!-- ad -->
-						<div class="section-row text-center">
+						{% if post.status == "published" %}
+
+						{% if  user.is_authenticated %}
+						<div id="like-section">
+							{% include 'blog/like-section.html' %}
 						</div>
-						<!-- ad -->
+						{% else %}
+						<p style="font-size:20px ;">
+							<a href="{% url 'like_photo' %}" id="like-redirect" style="border: none;background: none;outline: none; color: black"><i class="fa fa-heart-o"></i></a> {{ total_likes }}
+						</p>
+						{% endif %}
+						<div class="post-shares sticky-shares"><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+																  class="share-facebook"><i class="fa fa-facebook"></i></a>
+							<a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"
+							   class="share-twitter"><i class="fa fa-twitter"></i></a>
+							<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}"
+							   class="share-pinterest"><i class="fa fa-reddit-alien"></i></a>
+							<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&source={{ share_string}}&source={{ request.build_absolute_uri }}"
+							   class="share-linkedin"><i class="fa fa-linkedin"></i></a>
 
-<!--						 author -->
-<!--						<div class="section-row">-->
-<!--                    <div class="post-author">-->
-<!--                        <div class="media">-->
-<!--                            <div class="media-left">-->
-<!--                                <img class="media-object" src="./img/author.png" alt="">-->
-<!--                            </div>-->
-<!--                            <div class="media-body">-->
-<!--                                <div class="media-heading">-->
-<!--                                    <h3>{{ post.Author.first_name }} {{ post.Author.last_name }}</h3>-->
-<!--                                </div>-->
-<!--                                <p>{{ post.Author.profile.About }}</p>-->
-<!--                                <ul class="author-social">-->
-<!--                                    {% if post.Author.profile.facebook != "" %}-->
-<!--                                        <li><a href="{{ post.Author.profile.facebook }}"><i class="fa fa-facebook"></i></a>-->
-<!--                                        </li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% if post.Author.profile.twitter != "" %}-->
-<!--                                        <li><a href="{{ post.Author.profile.twitter }}"><i-->
-<!--                                                class="fa fa-twitter"></i></a></li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% if post.Author.profile.google_plus != "" %}-->
-<!--                                        <li><a href="{{ post.Author.profile.google_plus }}"><i-->
-<!--                                                class="fa fa-google-plus"></i></a></li>-->
-<!--                              {% endif %}-->
-<!--                                    {% if post.Author.profile.instagram != "" %}-->
-<!--                                        <li><a href="{{ post.Author.profile.instagram }}"><i-->
-<!--                                                class="fa fa-instagram"></i></a></li>-->
-<!--                                    {% endif %}-->
-<!--                                </ul>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-						<!-- /author -->
 
-						<!-- comments -->
-						<div class="comment-section">
-                    {% include 'blog/comment-section.html' %}
-                </div>
-						<!-- /comments -->
+
+							<a href="whatsapp://send?text={{ request.build_absolute_uri }}" class="share-whatsapp"><i class="fa fa-whatsapp"></i></a>
+							<a href="mailto:?subject=Check out this awesome review&amp;body={{ share_string }}{{ request.build_absolute_uri }}"
+							   title="Share by Email" class="share-envelope"><i class="fa fa-envelope"></i></a>
+
+
+
+
+						</div>
+					</div>
+
+					<!-- ad -->
+					<div class="section-row text-center">
+					</div>
+					<!-- ad -->
+
+					<!--						 author -->
+					<!--						<div class="section-row">-->
+					<!--                    <div class="post-author">-->
+					<!--                        <div class="media">-->
+					<!--                            <div class="media-left">-->
+					<!--                                <img class="media-object" src="./img/author.png" alt="">-->
+					<!--                            </div>-->
+					<!--                            <div class="media-body">-->
+					<!--                                <div class="media-heading">-->
+					<!--                                    <h3>{{ post.Author.first_name }} {{ post.Author.last_name }}</h3>-->
+					<!--                                </div>-->
+					<!--                                <p>{{ post.Author.profile.About }}</p>-->
+					<!--                                <ul class="author-social">-->
+					<!--                                    {% if post.Author.profile.facebook != "" %}-->
+					<!--                                        <li><a href="{{ post.Author.profile.facebook }}"><i class="fa fa-facebook"></i></a>-->
+					<!--                                        </li>-->
+					<!--                                    {% endif %}-->
+					<!--                                    {% if post.Author.profile.twitter != "" %}-->
+					<!--                                        <li><a href="{{ post.Author.profile.twitter }}"><i-->
+					<!--                                                class="fa fa-twitter"></i></a></li>-->
+					<!--                                    {% endif %}-->
+					<!--                                    {% if post.Author.profile.google_plus != "" %}-->
+					<!--                                        <li><a href="{{ post.Author.profile.google_plus }}"><i-->
+					<!--                                                class="fa fa-google-plus"></i></a></li>-->
+					<!--                              {% endif %}-->
+					<!--                                    {% if post.Author.profile.instagram != "" %}-->
+					<!--                                        <li><a href="{{ post.Author.profile.instagram }}"><i-->
+					<!--                                                class="fa fa-instagram"></i></a></li>-->
+					<!--                                    {% endif %}-->
+					<!--                                </ul>-->
+					<!--                            </div>-->
+					<!--                        </div>-->
+					<!--                    </div>-->
+					<!--                </div>-->
+					<!-- /author -->
+
+					<!-- comments -->
+					<div class="comment-section">
+						{% include 'blog/comment-section.html' %}
+					</div>
+					<!-- /comments -->
 					<!-- /Post content -->
 
 					<!-- aside -->
@@ -248,7 +248,7 @@
 			</div>
 			<!-- /container -->
 		</div>
-{% endif %}
+		{% endif %}
 		<!-- Footer -->
 		<footer id="footer">
 			<!-- container -->
@@ -262,8 +262,8 @@
 							</div>
 							<div class="footer-copyright">
 								<span>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template and website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.instagram.com/daromosuabdul/" target="_blank">Abdul</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+									Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template and website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.instagram.com/daromosuabdul/" target="_blank">Abdul</a>
+									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
 							</div>
 						</div>
 					</div>
@@ -275,7 +275,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									<h3 class="footer-title">Join In</h3>
 									<ul class="footer-links">
 										<li><a href="{% url 'signup' %}">Sign Up</a></li>
-                                    <li><a href="{% url 'login' %}">Login</a></li>
+										<li><a href="{% url 'login' %}">Login</a></li>
 									</ul>
 								</div>
 							</div>
@@ -286,18 +286,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						<div class="footer-widget">
 							<h3 class="footer-title">Join our Newsletter</h3>
 							<div class="footer-newsletter">
-                            <form class="newsletter" method="post">
-                                {% csrf_token %}
-                                <input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
-                                <button class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
-                            </form>
-                            {% for message in messages %}{{message}}{% endfor %}
-                        </div>
-							 <ul class="footer-social">
-                            <li><a href="https://www.facebook.com/bitshub.vibes"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="https://twitter.com/TheHub57480435?s=09"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="https://www.instagram.com/thebitshub/"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
+								<form class="newsletter" method="post">
+									{% csrf_token %}
+									<input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
+									<button class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
+								</form>
+								{% for message in messages %}{{message}}{% endfor %}
+							</div>
+							<ul class="footer-social">
+								<li><a href="https://www.facebook.com/bitshub.vibes"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://twitter.com/TheHub57480435?s=09"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="https://www.instagram.com/thebitshub/"><i class="fa fa-instagram"></i></a></li>
+							</ul>
 						</div>
 					</div>
 
@@ -309,13 +309,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		<!-- /Footer -->
 
 
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-<script src="{% static 'js/main.min.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
-    <script type="text/javascript">
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+		<script src="{% static 'js/main.min.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+		<script type="text/javascript">
         $(document).ready(function (event) {
             $(document).on('click', '#like-btn', function (event) {
                 event.preventDefault();
@@ -371,7 +371,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
         });
     </script>
-<script>
+		<script>
 
 $(document).on('submit', '.newsletter', function (e) {
 	e.preventDefault();
