@@ -8,6 +8,7 @@
     <meta name="author" content="Colorlib">
     <meta name="keywords" content="Colorlib Templates">
     <title>BITSHUB</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="/static/vendor/css/style.css">
     <link rel="stylesheet" href="/static/vendor/fonts/material-icon/css/material-design-iconic-font.min.css">
 </head>
@@ -65,74 +66,14 @@
                                     class="display-flex-center zmdi zmdi-google"></i></a></li>
                         </ul>
                     </div>
-                    <a href="#" class="signup-image-link">I am already member</a><br>
+                    <a href="{% url 'login'%}" class="signup-image-link">I am already member</a><br>
                 </div>
             </div>
         </div>
     </section>
-    <section class="sign-in" style="display: none;">
-        <div class="container">
-            <div class="signin-content">
-                <div class="signin-image">
-                    <figure><img src="/static/img/signup-image.jpg" alt="sing up image"></figure>
-                    <a href="#" id="signup-image-link" class="signup-image-link">Create an account</a>
-                </div>
 
-                <div class="signin-form">
-                    <h2 class="form-title">Login</h2>
-                    <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
-                        </div>
-                        <a href="#" class="reset-image-link" id="reset-button">Forgot Password<i
-                                class="zmdi zmdi-network-locked"></i></a>
-                        <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="reset" style="display: none;">
-        <div class="container">
-            <div class="signin-content">
-                <div class="signin-image">
-                    <figure><img src="/static/img/reset.png" alt="sing up image"></figure>
-                    <a href="#" id="signup-image-link" style="text-decoration: none;" class="signup-image-link">Create
-                        an account</a><br>
-                    <a href="#" style="text-decoration: none;" class="signup-image-link">Already a member..</a>
-                </div>
-
-                <div class="signin-form">
-                    <h2 class="form-title">Reset Password.</h2>
-                    <form method="POST" action="{% url 'reset' %}" class="register-form" id="reset-form">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="reset-username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="reset-username" id="reset-username" placeholder="Your Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="reset-email"><i class="zmdi zmdi-email-open"></i></label>
-                            <input type="email" name="reset-email" id="reset-email" placeholder="Your Email"/>
-                        </div>
-                        <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 </div>
 <script src="/static/vendor/jquery/jquery.min.js"></script>
-<script src="/static/vendor/main.js"></script>
 <script type="text/javascript">
     $(function () {
         setTimeout(function () {

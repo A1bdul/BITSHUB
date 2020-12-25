@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'article/view/(?P<id>\d+)/(?P<slug>[\w-]+)/$', views.post_details, name='article_detail'),
     path('like', login_required(views.like_photo), name='like_photo'),
     path('delete_post/<int:id>', views.delete_post, name='delete'),
+    path('request/remove-newsletter/', views.DeleteNewsletter.as_view(), name='remove'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

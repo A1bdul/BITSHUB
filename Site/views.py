@@ -1,5 +1,6 @@
 from urllib.parse import quote_plus
 from django.contrib.sites.shortcuts import get_current_site
+from django.views.generic.base import View
 from Site.forms import CommentForm, ArticleCreate, UpdatePost
 from django.contrib.auth.models import AnonymousUser
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
@@ -16,6 +17,7 @@ from django.views.generic import UpdateView
 from django.contrib import messages
 from User.views import EmailThread
 
+
 def proper_pagination(post, index):
     start_index = 0
     end_index = 7
@@ -26,7 +28,7 @@ def proper_pagination(post, index):
 
 
 def home(request):
-    post_list = Article.published.all().order_by('-id')
+    post_list = Article.published.all().order_by('-publish_date', '-id')
     paginator = Paginator(post_list, 6)
     page = request.GET.get('page')
     try:
@@ -37,13 +39,13 @@ def home(request):
         post = paginator.page(paginator.num_pages)
 
     if page is None:
-        start_index= 0
+        start_index = 0
         end_index = 7
     else:
-        (start_index , end_index) = proper_pagination(post, index=4)
+        (start_index, end_index) = proper_pagination(post, index=4)
     page_range = list(paginator.page_range)[start_index:end_index]
     query = request.GET.get('q')
-    authored = Article.objects.filter(Author__username=request.user.username)
+    authored = Article.objects.filter(Author__username=request.user.username)[:4]
     if query:
         post = Article.published.filter(
             Q(title__icontains=query) |
@@ -52,11 +54,9 @@ def home(request):
     context = {
         'post': post,
         'authored_post': authored,
-        'page_range':page_range
+        'page_range': page_range
     }
     return render(request, 'blog/home.html', context)
-
-
 
 
 def post_details(request, id, slug):
@@ -78,7 +78,7 @@ def post_details(request, id, slug):
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():
         is_liked = True
-    authored = Article.objects.filter(Author__username=request.user.username)
+    authored = Article.objects.filter(Author__username=request.user.username)[:4]
     context = {
         'post': post,
         'comments': comments,
@@ -133,10 +133,12 @@ def article_create(request):
         return render(request, 'blips-create/article-create.html', context)
     return render(request, 'blog/error.html')
 
+
 class UpdateArticle(UpdateView):
     model = Article
     template_name = 'blips-create/update-article.html'
     form_class = UpdatePost
+
 
 def delete_post(request, id):
     post = get_object_or_404(Article, id=id)
@@ -164,11 +166,47 @@ def newsletter(request):
     letter = NewsLetter.objects.create(newsletter=email)
     from django.core.mail import EmailMultiAlternatives
 
-    subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER , email
+    subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER, email
     text_content = 'This is an important message.'
-    html_content = '<p>This email has successfully been added to Newsletter, You will recieve notification on new posts <br> <button><a href="https://bitshub.uc.r.appspot.com/">Go To Page</a></button></p>'
+    html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
+                   '<a href="http://bitshub.uc.r.appspot.com/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+                   '<div style="padding: 30px 0;"><div style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
+                   'posts about the latest tech announcements and my reviews.</p></div></div>' \
+                    '<p style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... '\
+                   '</br>' \
+                   '<a href="http://bitshub.uc.r.appspot.com/request/remove-newsletter/">Remove Newsletter Email</a></p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+    
     messages.add_message(request, messages.SUCCESS, 'email successfully added to newsletter section.')
     return HttpResponse('')
+
+
+class DeleteNewsletter(View):
+    def get(self, request):
+        return render(request, 'auth/newsletter.html')
+
+    def post(self, request):
+        context = {
+            'data': request.POST,
+            'has_error': False
+        }
+        newsletter = request.POST.get('delete-email')
+
+        if not validate_email(newsletter):
+            messages.error(request, "Please enter a valid email")
+            context['has_error'] = True
+
+        notuser = NewsLetter.objects.filter(newsletter=newsletter)
+        if not notuser.exists():
+            messages.add_message(request, messages.ERROR, 'please provide a subscribed email')
+            context['has_error'] = True
+
+        if notuser:
+            messages.add_message(request, messages.SUCCESS, """
+                newsletter email has succesfully been removed, You can always add it back on the site
+                """)
+
+        notuser.delete()
+        return render(request, 'auth/newsletter.html')

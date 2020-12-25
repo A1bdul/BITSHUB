@@ -16,7 +16,6 @@ from User.utils import generate_token
 from datetime import datetime
 import threading
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from datetime import datetime
 
 
 class EmailThread(threading.Thread):
@@ -79,8 +78,24 @@ class SignUp(View):
         user.is_active = False
 
         user.save()
+        from django.core.mail import EmailMultiAlternatives
 
         current_site = get_current_site(request)
+        uid = urlsafe_base64_encode(force_bytes(user.pk)),
+        token = generate_token.make_token(user)
+        # 
+        # subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER, email
+        # text_content = 'This is an important message.'
+        # html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
+        #                '<a href="http://bitshub.uc.r.appspot.com/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+        #                '<div style="padding: 30px 0;"><div style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
+        #                'posts about the latest tech announcements and my reviews.</p></div></div>' \
+        #                '<p style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... ' \
+        #                '</br>' \
+        #                '<a href=" ' + current_site + '/activate/' + uid + '/ ' + token + ' ">Remove Newsletter Email</a></p>'
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.send()
         email_subject = 'Active your account'
         message = render_to_string('auth/activate_author.html',
                                    {
@@ -99,8 +114,10 @@ class SignUp(View):
         )
         EmailThread(email_message).start()
         messages.add_message(request, messages.SUCCESS,
-                             'verification link has been sent to your email to confirm your account, This may might take a minute. ')
-        return redirect('login')
+                             """A Verification link has been sent to your email to confirm your account, you will 
+                             receive the mail soon. Please click the link to continue ... 
+                             """)
+        return render(request, 'auth/activate.html')
 
 
 class ActiveAccountView(View):
