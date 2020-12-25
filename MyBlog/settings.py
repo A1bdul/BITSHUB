@@ -41,10 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Site',
     'User',
+     'pyuploadcare.dj',
     'tinymce',
     'froala_editor',
     'social_django',
 ]
+
+UPLOADCARE = {
+    'pub_key': '760dabb2b41e4180f230',
+    'secret': 'd8615cbee51e9cada5b3',
+}
+
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',

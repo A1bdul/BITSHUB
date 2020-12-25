@@ -34,7 +34,8 @@ class Article(models.Model):
     title = models.CharField(max_length=250)
     Author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
     body = FroalaField(theme='dark')
-    cover_photo = models.CharField(max_length=300, blank=True)
+    from pyuploadcare.dj.models import ImageField
+    cover_photo = ImageField(blank=True)
     slug = models.SlugField(max_length=100)
     snippet = models.CharField(max_length=150, blank=True, null=True)
     publish_date = models.DateTimeField(default=timezone.now)
