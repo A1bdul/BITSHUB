@@ -46,6 +46,7 @@ def home(request):
     page_range = list(paginator.page_range)[start_index:end_index]
     query = request.GET.get('q')
     authored = Article.objects.filter(Author__username=request.user.username)[:4]
+    current_site = get_current_site(request)
     if query:
         post = Article.published.filter(
             Q(title__icontains=query) |
@@ -54,7 +55,8 @@ def home(request):
     context = {
         'post': post,
         'authored_post': authored,
-        'page_range': page_range
+        'page_range': page_range,
+        'current_site': current_site
     }
     return render(request, 'blog/home.html', context)
 
@@ -172,13 +174,13 @@ def newsletter(request):
                    '<a href="http://bitshub.uc.r.appspot.com/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
                    '<div style="padding: 30px 0;"><div style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
                    'posts about the latest tech announcements and my reviews.</p></div></div>' \
-                    '<p style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... '\
+                   '<p style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... ' \
                    '</br>' \
                    '<a href="http://bitshub.uc.r.appspot.com/request/remove-newsletter/">Remove Newsletter Email</a></p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-    
+
     messages.add_message(request, messages.SUCCESS, 'email successfully added to newsletter section.')
     return HttpResponse('')
 
