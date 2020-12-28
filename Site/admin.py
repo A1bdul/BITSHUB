@@ -7,7 +7,7 @@ admin.site.register(NewsLetter)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'Author')
     search_fields = ('title',)
-    list_filter = ('title','Author')
+    list_filter = ('Author',)
     list_display_links = ('title',)
 
 
