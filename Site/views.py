@@ -1,20 +1,18 @@
 from urllib.parse import quote_plus
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
-from django.views.generic.base import View
-from Site.forms import CommentForm, ArticleCreate, UpdatePost
-from django.contrib.auth.models import AnonymousUser
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models import Q
-from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
-from Site.models import Article, Comment, NewsLetter
-from django.core.mail import EmailMessage
-from validate_email import validate_email
 from django.views.generic import UpdateView
-from django.contrib import messages
+from django.views.generic.base import View
+from validate_email import validate_email
+from Site.forms import CommentForm, ArticleCreate, UpdatePost
+from Site.models import Article, Comment, NewsLetter
 from User.views import EmailThread
 
 
@@ -46,7 +44,6 @@ def home(request):
     page_range = list(paginator.page_range)[start_index:end_index]
     query = request.GET.get('q')
     authored = Article.objects.filter(Author__username=request.user.username)[:4]
-    current_site = get_current_site(request)
     if query:
         post = Article.published.filter(
             Q(title__icontains=query) |
@@ -55,8 +52,7 @@ def home(request):
     context = {
         'post': post,
         'authored_post': authored,
-        'page_range': page_range,
-        'current_site': current_site
+        'page_range': page_range
     }
     return render(request, 'blog/home.html', context)
 
@@ -167,20 +163,20 @@ def newsletter(request):
 
     letter = NewsLetter.objects.create(newsletter=email)
     from django.core.mail import EmailMultiAlternatives
-
+    current_site = str(get_current_site(request))
     subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER, email
     text_content = 'This is an important message.'
     html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
-                   '<a href="http://bitshub.uc.r.appspot.com/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
-                   '<div style="padding: 30px 0;"><div style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
+                   '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+                   '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
                    'posts about the latest tech announcements and my reviews.</p></div></div>' \
-                   '<p style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... ' \
+                    '<p style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... '\
                    '</br>' \
-                   '<a href="http://bitshub.uc.r.appspot.com/request/remove-newsletter/">Remove Newsletter Email</a></p>'
+                   '<a href="http://'+current_site+'/request/remove-newsletter/">Remove Newsletter Email</a></p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
-    msg.send()
-
+    # msg.send()
+    EmailThread(msg).start()
     messages.add_message(request, messages.SUCCESS, 'email successfully added to newsletter section.')
     return HttpResponse('')
 

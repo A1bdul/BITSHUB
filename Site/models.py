@@ -32,10 +32,10 @@ class Article(models.Model):
 
     #  basis features that will be in our article
     title = models.CharField(max_length=250)
-    Author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
-    body = FroalaField(theme='dark')
+    Author = models.ForeignKey(User, related_name='author', on_delete=models.PROTECT)
+    body = FroalaField()
     from pyuploadcare.dj.models import ImageField
-    cover_photo = ImageField(blank=True)
+    cover_photo = ImageField(blank=True, null=True)
     slug = models.SlugField(max_length=100)
     snippet = models.CharField(max_length=150, blank=True, null=True)
     publish_date = models.DateTimeField(default=timezone.now)
@@ -60,10 +60,10 @@ class Article(models.Model):
         return self.likes.count
 
 
-# @receiver(pre_save, sender=Article)
-# def pre_save_slug(**kwargs):
-#     slug = slugify(kwargs['instance'].title)
-#     kwargs['instance'].slug = slug
+@receiver(pre_save, sender=Article)
+def pre_save_slug(**kwargs):
+    slug = slugify(kwargs['instance'].title)
+    kwargs['instance'].slug = slug
 
 
 class Comment(models.Model):

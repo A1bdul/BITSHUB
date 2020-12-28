@@ -1,195 +1,214 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>BITSHUB</title>
-    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/strip.css' %}">
-    {{ form.media }}
+	<meta charset="UTF-8">
+	<title>BITSHUB</title>
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="/static/css/blog-create/main.min.css">
+	<link rel="stylesheet" href="/static/css/blog-create/color.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/blog-create/responsive.css">
+	<link rel="stylesheet" href="/static/css/blog-create/style.css">
+	{{ form.media }}
 </head>
 <body>
+
 <header id="header">
-    <div id="nav">
-        <div id="nav-fixed">
-            <div class="container">
-                <div class="nav-logo">
-                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/logo.png' %}" alt=""></a>
-                </div>
-                <div class="nav-btns">
-                    {% if user.is_staff or user.is_superuser %}
-                    <button class="aside-btn"><i class="fa fa-bars"></i></button>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div id="nav-aside">
-            <div class="section-row">
-                <ul class="naves list-unstyled">
-                    <li>
-                        <i class="ti-home"></i>
-                        <a href="{% url 'home' %}" title="">Home </a>
-                    </li>
-                    <li>
-                        <i class="ti-info-alt"></i>
-                        <a href="" title="">Basic info</a>
-                    </li>
-                    <li>
-                        <i class="ti-mouse-alt"></i>
-                        <a href="{% url 'article_create' %}" title="">Article</a>
-                    </li>
-                    <li>
-                        <i class="ti-lock"></i>
-                        <a href="{% url 'logout' %}"> Logout </a>
-                    </li>
-                </ul>
-            </div>
-            {% if authored_post %}
-            <div class="section-row">
-                <h3>Recent Posts</h3>
-                {% for post in authored_post %}
-                <div class="post post-widget">
-                    {% if post.cover_photo %}
-                    <a class="post-img"><img src="{{ post.cover_photo.url }}" alt=""></a>
-                    {% else %}
-                    <svg class="bd-placeholder-img" width="100%" height="100%"
-                         preserveAspectRatio="xMidYMid slice"
-                         focusable="false" role="img">
-                        <rect width="100%" height="100%" fill="#777"></rect>
-                    </svg>
-                    {% endif %}
-                    <div class="post-body">
-                        <p style="font-size: 20px; color:black;" class="post-title"><a
-                                href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
-                            <a href="{% url 'update_post' post.pk %}"><i class="fa fa-pencil"></i></a> <a
-                                    href="{% url 'delete' post.pk %}"><i class="fa fa-trash-o"></i> </a></p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="section-row">
-                <h3>Follow us</h3>
-                <ul class="nav-aside-social">
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                </ul>
-            </div>
-            {% endif %}
-            <button class="nav-aside-close"><i class="fa fa-times"></i></button>
-        </div>
-    </div>
-    <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-            {% for category in categories %}
-            <a class="p-2 text-muted" href="{% url 'category' category %}">{{ category }}</a>
-            {% endfor %}
-        </nav>
-    </div>
+	<!-- Nav -->
+	<div id="nav">
+		<!-- Main Nav -->
+		<div id="nav-fixed">
+			<div class="container">
+				<!-- logo -->
+				<div class="nav-logo" style="margin-top: 22px;">
+					<a href="{% url 'home' %}" class="
+"><img src="/static/img/logo.png" alt=""></a>
+				</div>
+
+				<!-- search & aside toggle -->
+				<div class="nav-btns">
+					{% if user.is_staff or user.is_superuser %}
+					<button class="aside-btn"><i class="fa fa-bars"></i></button>
+					{% endif %}
+				</div>
+				<!-- /search & aside toggle -->
+			</div>
+		</div>
+		<!-- /Main Nav -->
+		{% if user.is_staff or user.is_superuser %}
+		<!-- Aside Nav -->
+		<div id="nav-aside">
+			<!-- nav -->
+			<div class="section-row">
+				<ul class="nav-aside-menu">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li><a href="{% url 'article_create' %}">Create Article</a></li>
+					<li><a href="{% url 'signup' %}">Join Us</a></li>
+					{% if user.is_superuser%}<li><a href="{% url 'admin:index'%}">Admin</a></li>{% endif %}
+					<li><a href="https://www.google.com/adsense/new/u/0/pub-5604170503313976/home">Advertisement</a></li>
+					<li><a href="{% url 'logout'%}">Logout</a></li>
+				</ul>
+			</div>
+			<!-- /nav -->
+			{% if authored_post %}
+			<!-- widget posts -->
+			<div class="section-row">
+				<h3>Recent Posts</h3>
+				{% for post in authored_post %}
+				<div class="post post-widget">
+					{% if post.cover_photo %}
+					<a class="post-img"><img  src="{{ post.cover_photo }}" alt=""></a>
+					{% endif %}
+					<div class="post-body">
+						<h3 class="post-title">
+							<a
+									href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
+							<a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a><a
+								id="delete" href="{% url 'delete' post.id %}"><i class="fa fa-trash-o"></i> </a>
+						</h3>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<!-- /widget posts -->
+			{% endif %}
+			<!-- social links -->
+			<div class="section-row">
+				<h3>Follow us</h3>
+				<ul class="nav-aside-social">
+					<li><a href="https://www.facebook.com/bitshub.vibes"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="https://twitter.com/TheHub57480435?s=09"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="https://www.instagram.com/thebitshub/"><i class="fa fa-instagram"></i></a></li>
+				</ul>
+			</div>
+			<!-- /social links -->
+
+			<!-- aside nav close -->
+			<button class="nav-aside-close"><i class="fa fa-times"></i></button>
+			<!-- /aside nav close -->
+		</div>
+		<!-- Aside Nav -->
+		{% endif %}
+	</div>
+	<!-- /Nav -->
 </header>
 <section>
-    <div class="gap gray-bg">
-        <div class="container-fluid">
-            <div class="central-meta">
-                <div class="editing-info">
-                    <h5 class="f-title"><i class="ti-info-alt"></i> Create A Blog Post</h5>
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-group mb-lg-5">
-                            {{ form.title }}
-                            <label class="control-label" for="input">Title</label><i
-                                class="mtrl-select"></i>
-                        </div>
-                        <div class="form-group mb-lg-5">
-                            {{ form.snippet }}
-                            <label class="control-label" for="input">Snippets..Add a brief introduction[not necessary <i
-                                    class="fa fa-smile-o"></i>]</label><i
-                                class="mtrl-select"></i>
-                        </div>
-                        <div class="form-group half mb-lg-5">
-                            {{ form.status }}
-                            <label class="control-label" for="input">Status</label><i
-                                class="mtrl-select"></i>
-                        </div>
-                        <div class="form-group mb-lg-5">
-                            {{ form.cover_photo }}
-                            <label class="control-label" for="input"><i class="fa fa-photo"></i> Add a Cover
-                                Photo</label>
-                        </div>
-                        <div class="form-group mb-lg-5">
-                            {{ form.category }}
-                            <label class="control-label" for="input"><i class="fa fa-adn"></i> Add a Cover Photo</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="input"><i class="fa fa-newspaper-o"></i> Article Body</label>
-                            {{ form.body }}
-                        </div>
-
-                        <input type="submit" class="mtr-btn" value="create">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="ext-gap bluesh high-opacity">
+		<div class="content-bg-wrap" style="background: url()"></div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="top-banner">
+						<h1>Create Your Post</h1>
+						<nav class="breadcrumb">
+							<a class="breadcrumb-item" style="font-family:'Poppins';" href="{% url 'home' %}">Home</a>
+							<span style="font-family:'Poppins';" class="breadcrumb-item active">Create Post</span>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
-<footer>
-    <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-4 col-md-4">
-                <div class="widget">
-                    <div class="foot-logo">
-                        <div class="logo">
-                            <a href="{% url 'home' %}" title=""><img src="{% static 'img/logo.png' %}"
-                                                                                alt=""></a>
-                        </div>
-                        <p>
-                            The trio took this simple idea and built it into the world’s leading carpooling platform.
-                        </p>
-                    </div>
-                    <ul class="location">
-                        <li>
-                            <i class="ti-map-alt"></i>
-                            <p>33 new montgomery st.750 san francisco, CA USA 94105.</p>
-                        </li>
-                        <li>
-                            <i class="ti-mobile"></i>
-                            <p>+1-56-346 345</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4">
-                <div class="widget">
-                    <div class="widget-title"><h4>follow</h4></div>
-                    <ul class="list-style">
-                        <li><i class="fa fa-facebook-square"></i> <a href="https://web.facebook.com/shopcircut/"
-                                                                     title="">facebook</a></li>
-                        <li><i class="fa fa-twitter-square"></i><a href="https://twitter.com/login?lang=en" title="">twitter</a>
-                        </li>
-                        <li><i class="fa fa-instagram"></i><a href="https://www.instagram.com/?hl=en"
-                                                              title="">instagram</a></li>
-                        <li><i class="fa fa-google-plus-square"></i> <a href="https://plus.google.com/discover"
-                                                                        title="">Google+</a></li>
-                        <li><i class="fa fa-pinterest-square"></i> <a href="https://www.pinterest.com/" title="">Pintrest</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4">
-                <div class="widget">
-                    <div class="widget-title"><h4>Navigate</h4></div>
-                    <ul class="list-style">
-                        <li><a href="{% url 'home' %}">Articles</a></li>
-                        <li><a href="">Join Us</a></li>
-                        <li><a href="">Contacts</a></li>
+<section>
+	<div class="gap">
+		<div class="container-fluid">
+			<div class="central-meta" style="background:white;">
+				<div class="editing-info">
+					<h5 class="f-title"><i class="ti-bolt-alt"></i>Create A New Post</h5>
+					<form action="" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="form-group" style="margin-bottom: 25px;">
+							{{ form.title }}
+							<label class="control-label" style="color:black;" for="input">Title</label><i
+								class="mtrl-select"></i>
+						</div>
+						<div class="form-group" style="margin-bottom: 25px;">
+							{{ form.snippet }}
+							<label class="control-label" style="color:black;" for="input">Snippets..Add a brief introduction [not necessary <i class="fa fa-smile-o"></i>]</label><i
+								class="mtrl-select"></i>
+						</div>
+						<div class="form-group" style="margin-bottom: 35px;" {% if article.status == "published" %} style="display: none;" {% endif %}>
+						{{ form.status }}
+						<label class="control-label" style="color:black;font-family:'Poppins';" for="input">Status</label><i
+							class="mtrl-select"></i>
+				</div>
+				<div style="margin-bottom: 25px;">
+					{{ form.cover_photo }}
+					<label class="control-label" style="color:black;font-family:'Poppins';" for="input">Cover Photo <i class="fa fa-photo"></i></label>
+				</div>
+				<div class="form-group" style="margin-bottom: 25px;">
+					<label style="color:black;font-family:'Poppins';" for="input">Body <i class="fa fa-newspaper-o"></i></label>
+					{{ form.body }}
+				</div>
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="submit-btns">
+					<button type="reset"  class="mtr-btn"><span>Cancel</span></button>
+					<button type="submit" class="mtr-btn"><span>Create</span></button>
+				</div></form>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>
+<footer id="footer">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-5">
+				<div class="footer-widget">
+					<div class="footer-logo">
+						<a href="{% url 'home' %}" class="logo"><img src="/static/img/logo.png" alt=""></a>
+					</div>
+					<div class="footer-copyright">
+						<span>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template and website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.instagram.com/daromosuabdul/" target="_blank">Abdul</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="footer-widget">
+							<h3 class="footer-title">Join In</h3>
+							<ul class="footer-links">
+								<li><a href="{% url 'signup' %}">Sign Up</a></li>
+								<li><a href="{% url 'login' %}">Login</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="footer-widget">
+					<h3 class="footer-title">Join our Newsletter</h3>
+					<div class="footer-newsletter">
+						<form class="newsletter" method="post">
+							{% csrf_token %}
+							<input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
+							<button class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
+						</form>
+					</div>
+					{% for message in messages %}{{message}}{% endfor %}
+					<ul class="footer-social">
+						<li><a href="https://www.facebook.com/bitshub.vibes"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="https://twitter.com/TheHub57480435?s=09"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="https://www.instagram.com/thebitshub/"><i class="fa fa-instagram"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
 </footer>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -197,5 +216,6 @@
 <script src="{% static 'js/script.js' %}"></script>
 <script src="{% static 'js/main.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+
 </body>
 </html>

@@ -7,8 +7,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('content',)
 
+
 class UpdatePost(forms.ModelForm):
-    category = forms.CharField(disabled=True, widget=forms.TextInput())
 
     class Meta:
         model = Article
@@ -18,8 +18,6 @@ class UpdatePost(forms.ModelForm):
 
 
 class ArticleCreate(forms.ModelForm):
-    snippet = forms.CharField(required=False)
-    cover_photo = forms.ImageField(required=False)
 
     class Meta:
         model = Article

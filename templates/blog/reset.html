@@ -30,7 +30,7 @@
                                     class="fa fa-close close"></i></p>
                         {% endfor %}
                     </div>
-                    <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
+                    <form method="POST" action="{% url 'reset' %}" class="register-form" id="login-form">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="reset-username"><i class="zmdi zmdi-account material-icons-name"></i></label>

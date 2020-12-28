@@ -20,8 +20,8 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 class EmailThread(threading.Thread):
 
-    def __init__(self, email_message):
-        self.email_message = email_message
+    def __init__(self, msg):
+        self.email_message = msg
         threading.Thread.__init__(self)
 
     def run(self):
@@ -80,39 +80,40 @@ class SignUp(View):
         user.save()
         from django.core.mail import EmailMultiAlternatives
 
-        current_site = get_current_site(request)
-        uid = urlsafe_base64_encode(force_bytes(user.pk)),
-        token = generate_token.make_token(user)
-        # 
-        # subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER, email
-        # text_content = 'This is an important message.'
-        # html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
-        #                '<a href="http://bitshub.uc.r.appspot.com/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
-        #                '<div style="padding: 30px 0;"><div style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
-        #                'posts about the latest tech announcements and my reviews.</p></div></div>' \
-        #                '<p style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... ' \
-        #                '</br>' \
-        #                '<a href=" ' + current_site + '/activate/' + uid + '/ ' + token + ' ">Remove Newsletter Email</a></p>'
-        # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        # msg.attach_alternative(html_content, "text/html")
-        # msg.send()
-        email_subject = 'Active your account'
-        message = render_to_string('auth/activate_author.html',
-                                   {
-                                       'user': user,
-                                       'domain': current_site.domain,
-                                       'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                                       'token': generate_token.make_token(user)
+        current_site = str(get_current_site(request))
+        uid = str(urlsafe_base64_encode(force_bytes(user.pk)))
+        token = str(generate_token.make_token(user))
 
-                                   }
-                                   )
-        email_message = EmailMessage(
-            email_subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [email]
-        )
-        EmailThread(email_message).start()
+        subject, from_email, to = 'Activate Your Account', settings.EMAIL_HOST_USER, email
+        text_content = 'Activate Your Account'
+        html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
+                       '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+                       '<div style="padding: 30px 0;"><div style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
+                       '<p style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">Your BITSHUB acccount was created with this email, Use the link to verify this email address and activate your account to like and comment on blog posts.<br>This will also mean you agree to terms and condition or blog policies to avoid to use this blog for any abusive conduct' \
+                       '</br>' \
+                       '<a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/activate/'+uid+'/'+token+'">Activate Account</a></p><br><p>if you didn\'t signup, please ignore this message</p>'
+        print(html_content)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        # msg.send()
+        EmailThread(msg).start()
+        # email_subject = 'Active your account'
+        # message = render_to_string('auth/activate_author.html',
+        #                            {
+        #                                'user': user,
+        #                                'domain': current_site.domain,
+        #                                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        #                                'token': generate_token.make_token(user)
+        #
+        #                            }
+        #                            )
+        # email_message = EmailMessage(
+        #     email_subject,
+        #     message,
+        #     settings.EMAIL_HOST_USER,
+        #     [email]
+        # )
+        # EmailThread(email_message).start()
         messages.add_message(request, messages.SUCCESS,
                              """A Verification link has been sent to your email to confirm your account, you will 
                              receive the mail soon. Please click the link to continue ... 
@@ -196,25 +197,45 @@ class ResetPasswordView(View):
         if context['has_error']:
             return render(request, 'blog/reset.html', context)
 
+        from django.core.mail import EmailMultiAlternatives
+
         user = User.objects.get(email=email)
+        uid = str(urlsafe_base64_encode(force_bytes(user.pk)))
+        token= str(PasswordResetTokenGenerator().make_token(user))
+        current_site = str(get_current_site(request))
 
-        current_site = get_current_site(request)
-        email_subject = '  Reset  Password'
-        message = render_to_string('auth/reset-password.html',
-                                   {
-                                       'domain': current_site.domain,
-                                       'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                                       'token': PasswordResetTokenGenerator().make_token(user)
 
-                                   }
-                                   )
-        email_message = EmailMessage(
-            email_subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [email]
-        )
-        EmailThread(email_message).start()
+        subject, from_email, to = 'Reset Your Password', settings.EMAIL_HOST_USER, email
+        text_content = 'Reset Your Password'
+        html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
+                       '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+                       '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
+                       '<p style="' \
+                        ' width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">' \
+                        'Please click this link yo continue to set a new password' \
+                       '</br>' \
+                       '<a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Set New Password</a></p>'
+        print(html_content)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        # msg.send()
+        EmailThread(msg).start()
+        # email_subject = '  Reset  Password'
+        # message = render_to_string('auth/reset-password.html',
+        #                            {
+        #                                'domain': current_site.domain,
+        #                                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        #                                'token': PasswordResetTokenGenerator().make_token(user)
+        #
+        #                            }
+        #                            )
+        # email_message = EmailMessage(
+        #     email_subject,
+        #     message,
+        #     settings.EMAIL_HOST_USER,
+        #     [email]
+        # )
+        # EmailThread(email_message).start()
 
         messages.success(request, 'Your reset password instructions has been sent to your email')
         return redirect('login')
