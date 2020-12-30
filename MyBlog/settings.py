@@ -163,13 +163,42 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
-FROALA_EDITOR_THIRD_PARTY = ['image_aviary', 'spell_checker', 'font_awesome', 'embedly']
-FROALA_EDITOR_PLUGINS = ('align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons',
-                         'entities', 'file','emoticons', 'font_family', 'font_size', 'fullscreen', 'image_manager', 'image',
-                         'inline_style',
-                         'line_breaker', 'link', 'html', 'lists', 'paragraph_format', 'paragraph_style', 'quick_insert',
-                         'quote', 'save', 'table',
-                         'url', 'video')
+# FROALA_EDITOR_THIRD_PARTY = ['image_aviary', 'spell_checker', 'font_awesome', 'embedly']
+# FROALA_EDITOR_PLUGINS = ('align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons',
+#                          'entities', 'file','emoticons', 'font_family', 'font_size', 'fullscreen', 'image_manager', 'image',
+#                          'inline_style',
+#                          'line_breaker', 'link', 'html', 'lists', 'paragraph_format', 'paragraph_style', 'quick_insert',
+#                          'quote', 'save', 'table',
+#                          'url', 'video')
+
+TINYMCE_SPELLCHECKER = True
+TINYMCE_DEFAULT_CONFIG = {
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'silver',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code fontfamily lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            fullscreen preview bold italic underline | fontselect,
+            fontsizeselect fontfamily | forecolor backcolor | alignleft alignright |
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample |
+            ''',
+    'toolbar2': '''
+            visualblocks visualchars |
+            charmap hr pagebreak nonbreaking anchor |  code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}
+
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',

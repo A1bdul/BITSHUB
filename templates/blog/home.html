@@ -122,7 +122,7 @@
 		<div class="container">
 			<div class="row" id="page-contents">
 				<div class=" col-lg-12">
-					<div class="blog-sec">
+					<div class="blog-sec" >
 						<div class="row">
 							{% for item in post%}
 							<div class="col-lg-4 col-sm-6">
@@ -133,14 +133,13 @@
 										{% endif%}
 										<i class="fa fa-laptop"></i>
 									</figure>
-									<div class="g-post-meta">
+									<div class="g-post-meta" style="height:300px;">
 										<div class="post-title">
 											<h4><a title="" href="{% url 'article_detail' item.id item.slug %}">{{ item.title|title }}</a></h4>
-
 											{% if item.snippet %}
 											<p class="text-black" >{{ item.snippet }}</p>
 											{% endif %}
-											<p class="text-black-50" >{{ item.body|safe|truncatewords:20 }}</p>
+											<p class="text-black-50" style="margin-top:0;" >{{ item.body|safe|truncatewords:18 }}</p>
 											<span class="p-date"> <a href="{% url 'article_detail' item.id item.slug %}" title="">READ MORE</a></span><br>
 											<span class="p-date">by <a href="#" title="">{{ item.Author }}</a> -  {{ item.publish_date }}</span>
 

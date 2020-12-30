@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from froala_editor.fields import FroalaField
-
+from tinymce.models import HTMLField
 
 class NewsLetter(models.Model):
     newsletter = models.EmailField()
@@ -33,7 +33,7 @@ class Article(models.Model):
     #  basis features that will be in our article
     title = models.CharField(max_length=250)
     Author = models.ForeignKey(User, related_name='author', on_delete=models.PROTECT)
-    body = FroalaField()
+    body = HTMLField()
     from pyuploadcare.dj.models import ImageField
     cover_photo = ImageField(blank=True, null=True)
     slug = models.SlugField(max_length=100)

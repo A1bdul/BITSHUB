@@ -1,5 +1,12 @@
 from django import forms
+from tinymce.widgets import TinyMCE
+
 from Site.models import Comment, Article
+
+
+class TinyMCEWidget(TinyMCE):
+    def use_required_attribute(self, *args):
+        return False
 
 
 class CommentForm(forms.ModelForm):
@@ -9,18 +16,18 @@ class CommentForm(forms.ModelForm):
 
 
 class UpdatePost(forms.ModelForm):
-
     class Meta:
         model = Article
         fields = {
-            'title', 'body', 'cover_photo', 'status', 'snippet'
+            'title','body', 'cover_photo', 'status', 'snippet'
         }
 
 
 class ArticleCreate(forms.ModelForm):
+    body = forms.CharField(widget=TinyMCEWidget(attrs={'required': False, 'cols': 30, 'rows': 10}))
 
     class Meta:
         model = Article
         fields = {
-            'title', 'body', 'cover_photo', 'snippet', 'status'
+            'title', 'cover_photo', 'snippet', 'status'
         }
