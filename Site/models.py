@@ -34,6 +34,7 @@ class Article(models.Model):
     title = models.CharField(max_length=250)
     Author = models.ForeignKey(User, related_name='author', on_delete=models.PROTECT)
     body = HTMLField()
+    # body = FroalaField()
     from pyuploadcare.dj.models import ImageField
     cover_photo = ImageField(blank=True, null=True)
     slug = models.SlugField(max_length=100)

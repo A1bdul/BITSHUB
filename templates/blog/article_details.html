@@ -167,15 +167,16 @@
 						</p>
 						{% endif %}
 						<div class="post-shares sticky-shares"><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
-																  class="share-facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+																  title="Share via Facebook" class="share-facebook" target="_blank"><i class="fa fa-facebook"></i></a>
 							<a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"
-							   class="share-twitter"><i class="fa fa-twitter"></i></a>
+							   class="share-twitter" title="Share via Twitter"><i class="fa fa-twitter"></i></a>
 							<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}"
-							   class="share-pinterest"><i class="fa fa-reddit-alien"></i></a>
+							   class="share-pinterest" title="Share via Reddit"><i class="fa fa-reddit-alien"></i></a>
 							<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&source={{ share_string}}&source={{ request.build_absolute_uri }}"
-							   class="share-linkedin"><i class="fa fa-linkedin"></i></a><a href="whatsapp://send?text={{ request.build_absolute_uri }}" class="share-whatsapp"><i class="fa fa-whatsapp"></i></a>
+							   class="share-linkedin" title="Share via Linkedin" ><i class="fa fa-linkedin"></i></a>
+							<a href="whatsapp://send?text={{ request.build_absolute_uri }}" title="Share via WhatsApp" class="share-whatsapp"><i class="fa fa-whatsapp"></i></a>
 							<a href="mailto:?subject=Check out this awesome review&amp;body={{ share_string }}{{ request.build_absolute_uri }}"
-							   title="Share by Email" class="share-envelope"><i class="fa fa-envelope"></i></a>
+							   title="Share via Email" class="share-envelope"><i class="fa fa-envelope"></i></a>
 
 
 
