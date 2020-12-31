@@ -171,6 +171,7 @@ LOGOUT_REDIRECT_URL = 'login'
 #                          'quote', 'save', 'table',
 #                          'url', 'video')
 
+
 TINYMCE_SPELLCHECKER = True
 TINYMCE_DEFAULT_CONFIG = {
     'cleanup_on_startup': True,
@@ -179,14 +180,14 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',
     'plugins': '''
             textcolor save link image media preview codesample contextmenu
-            table code fontfamily lists fullscreen  insertdatetime  nonbreaking
+            table code fontfamily imagetools lists fullscreen  insertdatetime  nonbreaking
             contextmenu directionality searchreplace wordcount visualblocks
             visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak
+            anchor pagebreak emoticons
             ''',
     'toolbar1': '''
             fullscreen preview bold italic underline | fontselect,
-            fontsizeselect fontfamily | forecolor backcolor | alignleft alignright |
+            fontsizeselect  | forecolor backcolor | alignleft alignright |
             aligncenter alignjustify | indent outdent | bullist numlist table |
             | link image media | codesample |
             ''',
@@ -194,7 +195,9 @@ TINYMCE_DEFAULT_CONFIG = {
             visualblocks visualchars |
             charmap hr pagebreak nonbreaking anchor |  code |
             ''',
-    'contextmenu': 'formats | link image',
+    'image_caption':True,
+    'image_advtab':True,
+    'contextmenu': 'formats | link image emoticons',
     'menubar': True,
     'statusbar': True,
 }
