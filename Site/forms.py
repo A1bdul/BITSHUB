@@ -24,7 +24,7 @@ class UpdatePost(forms.ModelForm):
 
 
 class ArticleCreate(forms.ModelForm):
-    body = forms.CharField(widget=TinyMCEWidget(attrs={'required': False, 'cols': 30, 'rows': 10}))
+    body = forms.CharField(widget=TinyMCEWidget(attrs={'required': False, 'cols': 30, 'rows': 10, 'class':'form-control'}))
 
     class Meta:
         model = Article

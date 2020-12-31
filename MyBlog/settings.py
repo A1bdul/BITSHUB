@@ -178,18 +178,19 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 20,
     'selector': 'textarea',
     'theme': 'silver',
+    'skin':'oxide',
     'plugins': '''
             textcolor save link image media preview codesample contextmenu
-            table code fontfamily imagetools lists fullscreen  insertdatetime  nonbreaking
+            table code imagetools lists fullscreen  insertdatetime  nonbreaking
             contextmenu directionality searchreplace wordcount visualblocks
             visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak emoticons
+            anchor pagebreak emoticons advlist 
             ''',
     'toolbar1': '''
             fullscreen preview bold italic underline | fontselect,
             fontsizeselect  | forecolor backcolor | alignleft alignright |
             aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media | codesample |
+            | link image media insertfile| codesample |
             ''',
     'toolbar2': '''
             visualblocks visualchars |
@@ -197,7 +198,7 @@ TINYMCE_DEFAULT_CONFIG = {
             ''',
     'image_caption':True,
     'image_advtab':True,
-    'contextmenu': 'formats | link image emoticons',
+    'contextmenu': 'formats | link media emoticons',
     'menubar': True,
     'statusbar': True,
 }
