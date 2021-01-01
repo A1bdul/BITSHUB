@@ -149,13 +149,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'bitshub001@gmail.com'
-EMAIL_HOST_PASSWORD = '123AbduL456'
+EMAIL_HOST_PASSWORD = '**'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
 UPLOADCARE = {
     'pub_key': '760dabb2b41e4180f230',
-    'secret': 'd8615cbee51e9cada5b3',
+    'secret': '***',
 }
 
 LOGIN_URL = 'login'
@@ -209,12 +209,3 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success'
 }
 
-SOCIAL_AUTH_GITHUB_KEY = 'f7757280f5fbc4b84739'
-SOCIAL_AUTH_GITHUB_SECRET = '4466a06d14bdf487956e0b40a91d159ed37f8ce0'
-
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='814129464384-1j57h41b18h30bof3m85l043e267rd9m.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='eFKiiqHo3U3yV14hEXJFPqO3'
-
-SOCIAL_AUTH_FACEBOOK_KEY = '399588224736200'
-SOCIAL_AUTH_FACEBOOK_SECRET = '55371136f78db90af6aa521f534c137b'
