@@ -1,21 +1,17 @@
+import threading
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
-from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
-from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic.base import View
 from validate_email import validate_email
 from User.utils import generate_token
-from datetime import datetime
-import threading
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class EmailThread(threading.Thread):
@@ -74,7 +70,6 @@ class SignUp(View):
 
         user = User.objects.create_user(username=username, email=email)
         user.set_password(password)
-        user.profilepic = ""
         user.is_active = False
 
         user.save()
@@ -88,11 +83,10 @@ class SignUp(View):
         text_content = 'Activate Your Account'
         html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
                        '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
-                       '<div style="padding: 30px 0;"><div style="font-size:20px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
-                       '<p style="font-size:15px; width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">Your BITSHUB acccount was created with this email, Use the link to verify this email address and activate your account to like and comment on blog posts.<br>This will also mean you agree to terms and condition or blog policies to avoid to use this blog for any abusive conduct' \
-                       '</br>' \
-                       '<a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/activate/'+uid+'/'+token+'">Activate Account</a></p><br><p>if you didn\'t signup, please ignore this message</p>'
-        print(html_content)
+                       '<div style="padding: 30px 0;"><div style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
+                       '<p style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">Your BITSHUB acccount was created with this email, Use the link to verify this email address and activate your account to like and comment on blog posts.<br>This will also mean you agree to terms and condition or blog policies to avoid to use this blog for any abusive conduct' \
+                       '<br>' \
+                       '<strong><a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/activate/'+uid+'/'+token+'">Activate Account</a></strong></p><br><p style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you didn\'t signup, please ignore this message</p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         # msg.send()
@@ -211,11 +205,10 @@ class ResetPasswordView(View):
                        '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
                        '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
                        '<p style="' \
-                        ' width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">' \
-                        'Please click this link yo continue to set a new password' \
-                       '</br>' \
-                       '<a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Set New Password</a></p>'
-        print(html_content)
+                        ' width: 900px;font-family:sans-serif;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">' \
+                        'A password reset is requested for your account' \
+                       '<br> If this was a mistake, just ignore this message <br>Else, to reset your password, click the link '\
+                       '<br><strong><a style="font-weight: 600;color: black;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Click here to set new password</a></strong></p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         # msg.send()
@@ -237,7 +230,7 @@ class ResetPasswordView(View):
         # )
         # EmailThread(email_message).start()
 
-        messages.success(request, 'Your reset password instructions has been sent to your email')
+        messages.success(request, 'We\'ve sent reset instructions to the email address you have supplied ('+str(to) +'). If you don\'t recieve an email within 5 minutes, please check your spam folder ')
         return redirect('login')
 
 

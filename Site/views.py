@@ -119,6 +119,24 @@ def article_create(request):
             if form.is_valid():
                 post = form.save(commit=False)
                 post.Author = request.user
+                for news in NewsLetter.objects.all():
+                    from django.core.mail import EmailMultiAlternatives
+                    # current_site = str(get_current_site(request))
+                    # subject, from_email, to = 'Subcription to Newsletter', settings.EMAIL_HOST_USER, news
+                    # text_content = 'This is an important message.'
+                    # html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
+                    #                '<a href="http://' + current_site + '/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
+                    #                                                    '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;font-size:20px;">This email('+str(news)+') has successfully been added to Newsletter, You will recieve notification on new ' \
+                    #                                                    'posts about the latest tech announcements and my reviews.</p></div></div>' \
+                    #                                                    '<p style="width: 900px;font-size:20px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... ' \
+                    #                                                    '<br>' \
+                    #                                                    '<strong><a href="http://' + current_site + '/request/remove-newsletter/">Remove Newsletter Email</a></strong></p>'
+                    # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    # msg.attach_alternative(html_content, "text/html")
+                    # # msg.send()
+                    # EmailThread(msg).start()
+                    # messages.add_message(request, messages.SUCCESS, 'Your article is successfully created and '
+                    #                                                 'notification sent to newsletter')
                 post.save()
                 return HttpResponseRedirect(post.get_absolute_url())
         else:
@@ -168,11 +186,11 @@ def newsletter(request):
     text_content = 'This is an important message.'
     html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
                    '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
-                   '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">This email has successfully been added to Newsletter, You will recieve notification on new ' \
+                   '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;"font-size:20px;>This email has successfully been added to Newsletter, You will recieve notification on new ' \
                    'posts about the latest tech announcements and my reviews.</p></div></div>' \
-                    '<p style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... '\
-                   '</br>' \
-                   '<a href="http://'+current_site+'/request/remove-newsletter/">Remove Newsletter Email</a></p>'
+                    '<p style="width: 900px;font-size:20px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you did not sign up to this newsletter or would like to remove your email from the Newsletter, you can follow the link... '\
+                   '<br>' \
+                   '<strong><a href="http://'+current_site+'/request/remove-newsletter/">Remove Newsletter Email</a></strong></p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     # msg.send()
