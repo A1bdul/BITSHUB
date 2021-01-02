@@ -202,13 +202,12 @@ class ResetPasswordView(View):
         subject, from_email, to = 'Reset Your Password', settings.EMAIL_HOST_USER, email
         text_content = 'Reset Your Password'
         html_content = '<div style="line-height: 70px;float:left;margin:1.5rem;width: 100%;max-height: 70px;display:inline-block;">' \
-                       '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt=""></a></div>' \
-                       '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
+                       '<a href="http://'+current_site+'/"><img src="https://ucarecdn.com/8801c797-68e1-4a2f-8129-2af7f335a7ec/logo.png" alt="logo"></a></div>' \
+                       '<div style="padding: 30px 0;"><div style="width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
                        '<p style="' \
-                        ' width: 900px;font-family:sans-serif;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">' \
-                        'A password reset is requested for your account' \
-                       '<br> If this was a mistake, just ignore this message <br>Else, to reset your password, click the link '\
-                       '<br><strong><a style="font-weight: 600;color: black;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Click here to set new password</a></strong></p>'
+                        ' width: 900px;font-size:20px;background: #fff;margin: 0 auto;border-radius: 20px;">' \
+                        'A password reset is requested for your account ,If this was a mistake just ignore this message nothing will happen <br> Else, to reset your password, click the link '\
+                       '<strong><a style="font-size:20px;font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Click here to Set New Password</a></strong></p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         # msg.send()
