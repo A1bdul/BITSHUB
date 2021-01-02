@@ -1,9 +1,0 @@
-{% autoescape off%}
-
-Hi {{user.name}}
-please clink this link below to verify your account
-Confirm
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
-if you didn't signup, please ignore this message
-
-{% endautoescape %}
