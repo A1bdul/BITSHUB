@@ -1,0 +1,7 @@
+								<form class="newsletter" method="post" action="{% url 'newsletter' %}">
+									{% csrf_token %}
+									<input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
+									<button type="submit" class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
+								{% for message in messages %}{{message}}{% endfor %}
+								</form>
+

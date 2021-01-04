@@ -17,7 +17,6 @@ from django.contrib import messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = '!6pf6ei&6bv!bs3*35a+%)ugtzki%(-3kz=!fsb-&rf=$5qmit'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Site',
     'User',
-     'pyuploadcare.dj',
+    'social_django',
+    'pyuploadcare.dj',
     'tinymce',
     'froala_editor',
-    'social_django',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -62,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-'social_django.middleware.SocialAuthExceptionMiddleware'
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'MyBlog.urls'
@@ -87,18 +85,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MyBlog.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+###
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'BITSHUB',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
-}
-
-
+}  ###
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -117,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -131,16 +136,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
-#STATIC_ROOT = 'static'
+# STATIC_ROOT = 'static'
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 MEDIA_URL = '/media/'
@@ -170,39 +174,43 @@ LOGOUT_REDIRECT_URL = 'login'
 #                          'line_breaker', 'link', 'html', 'lists', 'paragraph_format', 'paragraph_style', 'quick_insert',
 #                          'quote', 'save', 'table',
 #                          'url', 'video')
-
-
+#
+# TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/kanciud9vht1hdzo6kfjrlb2ellb9bwu79cuosi7a3dxitmp/tinymce/5/tinymce.min.js"
 TINYMCE_SPELLCHECKER = True
 TINYMCE_DEFAULT_CONFIG = {
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
     'selector': 'textarea',
     'theme': 'silver',
-    'skin':'oxide',
+    'skin': 'oxide',
     'plugins': '''
             textcolor save link image media preview codesample contextmenu
             table code imagetools lists fullscreen  insertdatetime  nonbreaking
             contextmenu directionality searchreplace wordcount visualblocks
-            visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak emoticons advlist 
+            visualchars code fullscreen autolink lists  charmap print quickbars hr
+            anchor pagebreak importcss fullpage emoticons advlist autoresize tabfocus
             ''',
     'toolbar1': '''
-            fullscreen preview bold italic underline | fontselect,
-            fontsizeselect  | forecolor backcolor | alignleft alignright |
+            fullscreen fullpage importcss preview bold italic underline | fontselect,
+            fontsizeselect  | forecolor backcolor | alignleft alignright quickbars|
             aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media insertfile| codesample |
+            | link image media insertfile| codesample |autoresize tabfocus 
             ''',
     'toolbar2': '''
             visualblocks visualchars |
             charmap hr pagebreak nonbreaking anchor |  code |
             ''',
-    'image_caption':True,
-    'image_advtab':True,
+    'image_caption': True,
+    'image_advtab': True,
     'contextmenu': 'formats | link media emoticons',
     'menubar': True,
     'statusbar': True,
+    'height': 500,
 }
-
+TINYMCE_EXTRA_MEDIA = {'css': {
+    'all': ['css/style.css', 'css/blog-create/style.css', 'css/blog-create/responsive.css'],
+}
+}
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
@@ -212,9 +220,8 @@ MESSAGE_TAGS = {
 SOCIAL_AUTH_GITHUB_KEY = 'f7757280f5fbc4b84739'
 SOCIAL_AUTH_GITHUB_SECRET = '4466a06d14bdf487956e0b40a91d159ed37f8ce0'
 
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='814129464384-1j57h41b18h30bof3m85l043e267rd9m.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='eFKiiqHo3U3yV14hEXJFPqO3'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '814129464384-1j57h41b18h30bof3m85l043e267rd9m.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'eFKiiqHo3U3yV14hEXJFPqO3'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '399588224736200'
 SOCIAL_AUTH_FACEBOOK_SECRET = '55371136f78db90af6aa521f534c137b'
