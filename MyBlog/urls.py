@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('Site.urls')),
     path('froala_editor/', include('froala_editor.urls')),
     path('tinymce/', include('tinymce.urls')),
+
 ]

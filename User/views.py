@@ -86,7 +86,7 @@ class SignUp(View):
                        '<div style="padding: 30px 0;"><div style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;"><p style="font-family:sans-serif;">Hi '+user.username +',</p></div></div>' \
                        '<p style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">Your BITSHUB acccount was created with this email, Use the link to verify this email address and activate your account to like and comment on blog posts.<br>This will also mean you agree to terms and condition or blog policies to avoid to use this blog for any abusive conduct' \
                        '<br>' \
-                       '<strong><a style="font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/activate/'+uid+'/'+token+'">Activate Account</a></strong></p><br><p style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you didn\'t signup, please ignore this message</p>'
+                       '<strong><a style="font-weight: 600;color: #212631;" href="http://'+current_site+'/activate/'+uid+'/'+token+'">Activate Account</a></strong></p><br><p style=" width: 900px;background: #fff;margin: 0 auto;border-radius: 20px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-o-border-radius: 20px;-ms-border-radius: 20px;">if you didn\'t signup, please ignore this message</p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         # msg.send()
@@ -207,7 +207,7 @@ class ResetPasswordView(View):
                        '<p style="' \
                         ' width: 900px;font-size:20px;background: #fff;margin: 0 auto;border-radius: 20px;">' \
                         'A password reset is requested for your account ,If this was a mistake just ignore this message nothing will happen <br> Else, to reset your password, click the link '\
-                       '<strong><a style="font-size:20px;font-weight: 600;color: #212631;text-decoration: none;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Click here to Set New Password</a></strong></p>'
+                       '<strong><a style="font-size:20px;font-weight: 600;color: #212631;" href="http://'+current_site+'/set-password/'+uid+'/'+token+'">Click here to Set New Password</a></strong></p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         # msg.send()
@@ -230,8 +230,7 @@ class ResetPasswordView(View):
         # EmailThread(email_message).start()
 
         messages.success(request, 'We\'ve sent reset instructions to the email address you have supplied ('+str(to) +'). If you don\'t recieve an email within 5 minutes, please check your spam folder ')
-        return redirect('login')
-
+        return render(request, 'auth/activate.html')
 
 class SetPasswordView(View):
     def get(self, request, uidb64, token):
