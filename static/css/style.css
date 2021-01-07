@@ -123,11 +123,6 @@
      padding: 0;
      list-style: none
 }
-img {
-    display:block;
-    max-width:100%;
-    height:auto
-}
  ul.list-style, ol.list-style {
      padding-left: 15px;
      margin-bottom: 10px;
@@ -166,7 +161,6 @@ img {
      font-size: 13px;
      font-weight:600;
 }
-
  .input {
      height: 40px;
      border: 2px solid #eceef2;
@@ -315,7 +309,7 @@ img {
 }
  .nav-logo .logo > img {
      width: 100%;
-     max-height: 50px;
+     max-height: 70px;
 }
 /*----------------------------*\
 	menu
