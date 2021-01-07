@@ -22,7 +22,7 @@ def proper_pagination(post, index):
     if post.number > index:
         start_index = post.number - index
         end_index = start_index + end_index
-    return (start_index, end_index)
+    return start_index, end_index
 
 
 def home(request):
@@ -43,7 +43,7 @@ def home(request):
         (start_index, end_index) = proper_pagination(post, index=4)
     page_range = list(paginator.page_range)[start_index:end_index]
     query = request.GET.get('q')
-    authored = Article.objects.filter(Author__username=request.user.username)[:4]
+    authored = Article.objects.filter(Author__username=request.user.username)[:15]
     if query:
         post = Article.published.filter(
             Q(title__icontains=query) |
@@ -76,7 +76,7 @@ def post_details(request, id, slug):
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():
         is_liked = True
-    authored = Article.objects.filter(Author__username=request.user.username)[:4]
+    authored = Article.objects.filter(Author__username=request.user.username)[:15]
     context = {
         'post': post,
         'comments': comments,
@@ -113,7 +113,7 @@ def like_photo(request):
 
 def article_create(request):
     if request.user.is_staff or request.user.is_superuser:
-        authored = Article.objects.filter(Author__username=request.user.username)
+        authored = Article.objects.filter(Author__username=request.user.username)[:15]
         if request.method == 'POST':
             form = ArticleCreate(request.POST)
             if form.is_valid():

@@ -86,10 +86,10 @@
 					{% endif %}
 					<div class="post-body">
 						<h3 class="post-title">
-							<a
-									href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a>
-							<a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a><a
-								id="delete" href="{% url 'delete' post.id %}"><i class="fa fa-trash-o"></i> </a>
+							<a href="{% url 'article_detail' post.id post.slug %}">{{ post.title }}</a><br>
+							<a href="{% url 'update_post' post.id %}"><i class="fa fa-pencil"></i></a> <a id="delete"
+																										  href="{% url 'delete' post.id %}"><i
+								class="fa fa-trash-o"></i> </a>
 						</h3>
 					</div>
 				</div>
