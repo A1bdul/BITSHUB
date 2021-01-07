@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'User',
     'social_django',
     'pyuploadcare.dj',
-    'tinymce',
-    'froala_editor',
-    'grappelli', 'filebrowser',
+    'tinymce'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -128,7 +126,6 @@ else:
 # [END db_setup]
 
 # Use a in-memory sqlite3 database when testing in CI systems
-if os.getenv('TRAMPOLINE_CI', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

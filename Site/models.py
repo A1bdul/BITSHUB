@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-from froala_editor.fields import FroalaField
 from tinymce.models import HTMLField
 
 class NewsLetter(models.Model):

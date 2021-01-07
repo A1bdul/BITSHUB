@@ -15,14 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from filebrowser.sites import site
 urlpatterns = [
-    path('admin/filebrowser/', site.urls),
-    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', include('User.urls')),
     path('', include('Site.urls')),
-    path('froala_editor/', include('froala_editor.urls')),
     path('tinymce/', include('tinymce.urls')),
 
 ]
