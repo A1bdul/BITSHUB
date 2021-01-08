@@ -132,7 +132,6 @@ def article_create(request):
                                                                            '<p style="width: 900px;font-size:20px;background: #fff;margin: 0 auto;border-radius: 20px;">' \
                                                                            '<br>' \
                                                                            '<strong><a href="http://' + current_site + '/article/view/'+str(post.id)+'/'+post.slug+'">READ MORE</a></strong></p>'
-                        print(html_content)
                         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
                         msg.attach_alternative(html_content, "text/html")
                         # msg.send()
