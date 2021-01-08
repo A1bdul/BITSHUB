@@ -126,6 +126,7 @@ else:
 # [END db_setup]
 
 # Use a in-memory sqlite3 database when testing in CI systems
+if os.getenv('TRAMPOLINE_CI', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -195,14 +196,6 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
-# FROALA_EDITOR_THIRD_PARTY = ['image_aviary', 'spell_checker', 'font_awesome', 'embedly']
-# FROALA_EDITOR_PLUGINS = ('align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons',
-#                          'entities', 'file','emoticons', 'font_family', 'font_size', 'fullscreen', 'image_manager', 'image',
-#                          'inline_style',
-#                          'line_breaker', 'link', 'html', 'lists', 'paragraph_format', 'paragraph_style', 'quick_insert',
-#                          'quote', 'save', 'table',
-#                          'url', 'video')
-#
 # TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/kanciud9vht1hdzo6kfjrlb2ellb9bwu79cuosi7a3dxitmp/tinymce/5/tinymce.min.js"
 TINYMCE_SPELLCHECKER = True
 TINYMCE_DEFAULT_CONFIG = {
@@ -216,10 +209,10 @@ TINYMCE_DEFAULT_CONFIG = {
             table code imagetools lists fullscreen  insertdatetime  nonbreaking
             contextmenu directionality searchreplace wordcount visualblocks
             visualchars code fullscreen autolink lists  charmap print quickbars hr
-            anchor pagebreak importcss fullpage emoticons advlist autoresize tabfocus
+            anchor pagebreak importcss emoticons advlist autoresize tabfocus
             ''',
     'toolbar1': '''
-            fullscreen fullpage importcss preview bold italic underline | fontselect,
+            fullscreen importcss preview bold italic underline | fontselect,
             fontsizeselect  | forecolor backcolor | alignleft alignright quickbars|
             aligncenter alignjustify | indent outdent | bullist numlist table |
             | link image media insertfile| codesample |autoresize tabfocus 
@@ -245,11 +238,11 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success'
 }
 
-SOCIAL_AUTH_GITHUB_KEY = 'f7757280f5fbc4b84739'
-SOCIAL_AUTH_GITHUB_SECRET = '4466a06d14bdf487956e0b40a91d159ed37f8ce0'
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '814129464384-1j57h41b18h30bof3m85l043e267rd9m.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'eFKiiqHo3U3yV14hEXJFPqO3'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
-SOCIAL_AUTH_FACEBOOK_KEY = '399588224736200'
-SOCIAL_AUTH_FACEBOOK_SECRET = '55371136f78db90af6aa521f534c137b'
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
