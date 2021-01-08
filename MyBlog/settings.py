@@ -228,10 +228,10 @@ TINYMCE_DEFAULT_CONFIG = {
     'statusbar': True,
     'height': 500,
 }
-TINYMCE_EXTRA_MEDIA = {'css': {
-    'all': ['css/style.css', 'css/blog-create/style.css', 'css/blog-create/responsive.css'],
-}
-}
+# TINYMCE_EXTRA_MEDIA = {'css': {
+#     'all': ['css/style.css', 'css/blog-create/style.css',],
+# }
+# }
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
