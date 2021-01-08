@@ -1,7 +1,27 @@
-								<form class="newsletter" method="post" action="{% url 'newsletter' %}">
-									{% csrf_token %}
-									<input class="input" id="newsletter" type="email" name="newsletter" placeholder="Enter your email">
-									<button type="submit" class="newsletter-btn"><i class="fa fa-paper-plane"></i></button>
-								{% for message in messages %}{{message}}{% endfor %}
-								</form>
-
+<form method="POST" action="{% url 'signup' %}" class="register-form" id="register-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+        <input type="text" name="name" id="name" placeholder="UserName"/>
+    </div>
+    <div class="form-group">
+        <label for="email"><i class="zmdi zmdi-email"></i></label>
+        <input type="email" name="email" id="email" placeholder="Your Email"/>
+    </div>
+    <div class="form-group">
+        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+        <input type="password" name="pass" id="pass" placeholder="Password"/>
+    </div>
+    <div class="form-group">
+        <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+        <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
+        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
+            statements in <a href="#" class="term-service">Terms of service</a></label>
+    </div>
+    <div class="form-group form-button">
+        <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+    </div>
+</form>
