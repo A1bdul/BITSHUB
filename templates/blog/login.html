@@ -15,16 +15,15 @@
         <div class="container">
             <div class="signin-content">
                 <div class="signin-image">
-                    <figure><img src="/static/img/signup-image.jpg" alt="sing up image"></figure>
-                    <a href="{% url 'signup'%}" id="signup-image-link" class="signup-image-link">Create an account</a>
+                    <figure><img src="/static/img/signin-image.jpg" alt="sing up image"></figure>
+                    <a href="{% url 'signup' %}" class="signup-image-link">Create an account</a>
                 </div>
-
                 <div class="signin-form">
-                    <h2 class="form-title">Login</h2>
-                     <div class="message">
+                    <h2 class="form-title">Sign In</h2>
+                    <div class="message">
                         {% for message in messages %}
-                            <p class="text-center alert alert-{{ message.tags }}">{{ message }} <i
-                                    class="fa fa-close close"></i></p>
+                        <p class="text-center alert alert-{{ message.tags }}">{{ message }} <i
+                                class="fa fa-close close"></i></p>
                         {% endfor %}
                     </div>
                     <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
@@ -38,7 +37,7 @@
                             <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
                         </div>
                         <a href="{% url 'reset' %}" class="reset-image-link" id="reset-button">Forgot Password? <i
-                                class="zmdi zmdi-network-locked"></i></a>
+                                class="zmdi zmdi-key"></i></a>
                         <div class="form-group form-button">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                         </div>

@@ -176,10 +176,6 @@ def newsletter(request):
     if NewsLetter.objects.filter(newsletter=email).exists():
         messages.add_message(request, messages.ERROR, 'email already used  by another user')
         context['has_error'] = True
-    if context['has_error']:
-        html = render_to_string('blog/newsletter-section.html', context, request=request)
-        return JsonResponse({'form': html})
-
     letter = NewsLetter.objects.create(newsletter=email)
     from django.core.mail import EmailMultiAlternatives
     current_site = str(get_current_site(request))
