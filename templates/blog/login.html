@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>BITSHUB</title>
+    	<script src="https://kit.fontawesome.com/774996faac.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="/static/vendor/css/style.css">
@@ -31,15 +33,14 @@
                     <form method="POST" action="{% url 'login' %}" class="register-form" id="login-form">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <label for="your_name"><ion-icon name="person-outline"></ion-icon></label>
                             <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
                         </div>
                         <div class="form-group">
-                            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                            <label for="your_pass"><ion-icon name="lock-closed-outline"></ion-icon></label>
                             <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
                         </div>
-                        <a href="{% url 'reset' %}" class="reset-image-link" id="reset-button">Forgot Password? <i
-                                class="zmdi zmdi-key"></i></a>
+                        <a href="{% url 'reset' %}" class="reset-image-link" id="reset-button">Forgot Password? <ion-icon name="key-sharp"></ion-icon></a>
                         <div class="form-group form-button">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                         </div>

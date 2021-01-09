@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>BITSHUB</title>
     <script src="https://kit.fontawesome.com/774996faac.js" crossorigin="anonymous"></script>
-
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -20,7 +20,7 @@
             <div class="signin-content">
                 <div class="signin-image">
                     <figure><img src="https://ucarecdn.com/23f3d765-205a-4673-ae6c-0f73d02e3b90/21e8b8618631035a7c412964019.png" alt="sing up image"></figure>
-                    <a href="{% url 'login' %}" id="signup-image-link" class="signup-image-link">Continue to login</a>
+                    <a href="{% url 'login' %}" id="signup-image-link" class="signup-image-link">Continue to login <ion-icon name="log-in-outline"></ion-icon></a>
                 </div>
 
                 <div class="signin-form">
@@ -34,11 +34,11 @@
                     <form method="POST" action="{% url 'reset' %}" class="register-form" id="login-form">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="reset-username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <label for="reset-username"><ion-icon name="person-outline"></ion-icon></label>
                             <input type="text" name="reset-username" id="reset-username" placeholder="Your Name"/>
                         </div>
                         <div class="form-group">
-                            <label for="reset-email"><i class="zmdi zmdi-lock"></i></label>
+                            <label for="reset-email"><ion-icon name="lock-closed-outline"></ion-icon></label>
                             <input type="email" name="reset-email" id="reset-email" placeholder="Email"/>
                         </div>
                         <div class="form-group form-button">
