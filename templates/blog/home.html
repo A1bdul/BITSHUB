@@ -137,9 +137,8 @@
 											<h4><a title="" href="{% url 'article_detail' item.id item.slug %}">{{ item.title|title }}</a></h4>{% if item.snippet %}
 											<p class="text-black">{{ item.snippet }}</p>
 											{% endif %}
-											<p class="text-black-50">{{ item.body|safe|truncatewords:18 }}</p>
-											<span class="p-date"> <a href="{% url 'article_detail' item.id item.slug %}"
-																	 title="">READ MORE</a></span><br>
+											<p class="text-black-50">{{ item.body|safe|truncatewords:18 }}</p> <br>
+											<span class="p-date"> <a href="{% url 'article_detail' item.id item.slug %}" title="">READ MORE</a></span><br>
 											<span class="p-date">by <a href="#" title="">{{ item.Author }}</a> -  {{ item.publish_date }}</span>
 
 										</div>
