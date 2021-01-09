@@ -209,7 +209,7 @@ TINYMCE_DEFAULT_CONFIG = {
             table code imagetools lists fullscreen  insertdatetime  nonbreaking
             contextmenu directionality searchreplace wordcount visualblocks
             visualchars code fullscreen autolink lists  charmap print quickbars hr
-            anchor pagebreak importcss emoticons advlist autoresize tabfocus
+            anchor pagebreak importcss emoticons advlist autoresize tabfocus tinycomments
             ''',
     'toolbar1': '''
             fullscreen importcss preview bold italic underline | fontselect,
@@ -227,6 +227,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'menubar': True,
     'statusbar': True,
     'height': 500,
+    'tinycomments_mode': 'embedded',
+    'tinycomments_author': 'Author',
 }
 # TINYMCE_EXTRA_MEDIA = {'css': {
 #     'all': ['css/style.css', 'css/blog-create/style.css',],
