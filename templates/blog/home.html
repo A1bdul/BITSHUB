@@ -135,8 +135,7 @@
 									<div class="g-post-meta">
 										<div class="post-title">
 											<h4><a title="" href="{% url 'article_detail' item.id item.slug %}">{{
-												item.title|title }}</a></h4>
-											{% if item.snippet %}
+												item.title|title }}</a></h4>{% if item.snippet %}
 											<p class="text-black">{{ item.snippet }}</p>
 											{% endif %}
 											<p class="text-black-50">{{ item.body|safe|truncatewords:18 }}</p>
