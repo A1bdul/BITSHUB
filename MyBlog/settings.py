@@ -196,7 +196,7 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
-# TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/kanciud9vht1hdzo6kfjrlb2ellb9bwu79cuosi7a3dxitmp/tinymce/5/tinymce.min.js"
+TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/kanciud9vht1hdzo6kfjrlb2ellb9bwu79cuosi7a3dxitmp/tinymce/5/tinymce.min.js"
 TINYMCE_SPELLCHECKER = True
 TINYMCE_DEFAULT_CONFIG = {
     'cleanup_on_startup': True,
@@ -215,7 +215,7 @@ TINYMCE_DEFAULT_CONFIG = {
             fullscreen importcss preview bold italic underline | fontselect,
             fontsizeselect  | forecolor backcolor | alignleft alignright quickbars|
             aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media insertfile| codesample |autoresize tabfocus 
+            | link image media insertfile| codesample |autoresize tabfocus addcomment
             ''',
     'toolbar2': '''
             visualblocks visualchars |
